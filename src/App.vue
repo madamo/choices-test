@@ -1,28 +1,62 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+  <transition name="component-fade" mode="out-in">
+    <component v-bind:is="currentComponent" v-on:show-component="showComponent"></component>
+  </transition>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LandingPage from "./components/LandingPage";
+import SinglePlayer from "./components/SinglePlayer";
 
 export default {
-  name: 'app',
+  name: "App",
   components: {
-    HelloWorld
+    LandingPage,
+    SinglePlayer
+  },
+  data: function() {
+    return {
+      msg: "hello",
+      currentComponent: "LandingPage"
+    };
+  },
+  methods: {
+    showComponent: function(componentToShow) {
+      // this.currentComponent = "HelloWorld";
+      this.currentComponent = componentToShow;
+      return this.currentComponent;
+    }
   }
-}
+};
 </script>
 
 <style>
+
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond');
+
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  /*font-family: "Avenir", Helvetica, Arial, sans-serif;*/
+  font-family: 'EB Garamond', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  border: 1px solid blue;
+  width: 100%;
+}
+
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 1s;
+}
+
+.component-fade-enter,
+.component-fade-leave-to {
+  opacity: 0;
 }
 </style>
