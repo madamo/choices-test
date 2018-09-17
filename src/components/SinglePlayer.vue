@@ -1,13 +1,19 @@
 <template>
 
 <div id="single-player">
-  <button @click="$emit('show-component', 'LandingPage')">back</button>
-  <p>welcome to single</p>
-  <button @click.stop="startGame">start game</button>
-  		<transition-group tag="div" v-bind:css="false" id="options">
-  			<div v-for="(item, index) in items" v-bind:key="item" v-show="showOptions" v-bind:data-index="index" class="option" v-on:click.stop="getOptions">{{ item }}</div>
-  		</transition-group>
+  <div id="back-btn" @click="$emit('show-component', 'LandingPage')">back</div>
+  <div id="intro-screen" v-show="gameStarted==false">
+    <p>welcome to single</p>
+    <div id='start-btn' @click.stop="startGame">start game</div>
   </div>
+	<transition-group tag="div" v-bind:css="false" id="options">
+		<div v-for="(item, index) in items" v-bind:key="item" v-show="showOptions" v-bind:data-index="index" class="option" v-on:click.stop="getOptions">{{ item }}</div>
+	</transition-group>
+
+  <div id="game-over" v-show="gameOver"> Game Over!</div>
+
+
+</div>
 
 </template>
 
@@ -22,12 +28,15 @@ export default {
   		gameStarted: false,
   		items: ["A", "B", "C", "D", "E", "F", "G", "H"],
   		clickCount: 0,
-  		showOptions: false
+  		showOptions: false,
+      gameOver: false
   	}
   },
   computed: {
   	updateOptions: function () {
-
+       if (this.clickCount >= 10 ){
+          this.gameOver = true
+       }
   	}
   },
   methods: {
@@ -60,41 +69,46 @@ export default {
   	getOptions: function ( event ) {
   		
 
-  		var optionContainer = document.getElementById('options')
-  		var optionList = optionContainer.childNodes
+  		//var optionContainer = document.getElementById('options')
+  		//var optionList = optionContainer.childNodes
 
-  		var nextOption = this.clickCount + 2
+  		//var nextOption = this.clickCount + 2
 
   		// return which option was selected
   		console.log(event.target.textContent);
 
   		// animate the selected option, then clear the current options
   		Velocity(event.target, { scaleX: 1.5, scaleY: 1.5 }, { duration: 300, loop: 1, complete: this.clearOptions })
-  		
-  		// once the current pair exits, bring in the new pair
-  		Velocity(optionList[nextOption], { translateX: '500px' }, { delay: 800, duration: 200 })
-  		Velocity(optionList[nextOption+1], { translateX: '-500px' }, { delay: 900, duration: 200 })
-
-
-  		// once all pairs are shown, end the game
-
-  		
-  		console.log(this.clickCount);
+  		 
+  		//console.log(this.clickCount);
   	},
   	newOptions: function() {
 
+      var optionContainer = document.getElementById('options')
+      var optionList = optionContainer.childNodes
+
+       // increment clickCount
+      this.clickCount+=2;
+      
+
+          // once the current pair exits, bring in the new pair
+      Velocity(optionList[this.clickCount], { translateX: '500px' }, {  duration: 200 })
+      Velocity(optionList[this.clickCount+1], { translateX: '-500px' }, { duration: 200 })
+
+      console.log(this.clickCount)
+      if (this.clickCount >= 8) {
+        this.gameOver = true
+      }
   	},
   	clearOptions: function(currentOption) {
-  		
-  		var optionContainer = document.getElementById('options')
-  		var optionList = optionContainer.childNodes
 
+      var optionContainer = document.getElementById('options')
+      var optionList = optionContainer.childNodes
   		// check to see which pair is currently visible and then exit them from the screen
   		Velocity(optionList[this.clickCount], { translateY: '500px' }, { delay: 100, duration: 200, display: 'none' })
-  		Velocity(optionList[this.clickCount+1], { translateY: '500px' }, { duration: 200, display: 'none' })
+  		Velocity(optionList[this.clickCount+1], { translateY: '500px' }, { duration: 200, display: 'none', complete: this.newOptions })
   		
-  		// increment clickCount
-  		this.clickCount+=2;
+
   	}
   }
 };
@@ -103,10 +117,15 @@ export default {
 <style scoped>
 	
 	#single-player {
-		width: 100%;
+		max-width: 750px;
 		margin: 0 auto;
 		border: 1px solid green;
 	}
+
+  #back-btn {
+    position: absolute;
+    border: 1px solid pink;
+  }
 
 	.option {
 		border: 1px solid grey;
@@ -127,6 +146,12 @@ export default {
 		height: 100%;
 		overflow: hidden;
 	}
+
+  #start-btn {
+    border: 1px solid grey;
+    width: 35%;
+    margin: 0 auto;
+  }
 
 	.slide-right-enter {
 		transform: translateX(-500px);
