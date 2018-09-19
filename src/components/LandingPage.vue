@@ -76,7 +76,7 @@ export default {
 
   	Velocity(document.getElementById('shitty'), { translateX: '500px'}, {delay: 8800, duration: 200})
   	Velocity(document.getElementById('choices'), { translateX: '-500px'}, {delay: 9000, duration: 200})
-  	Velocity(document.getElementById('single-player-btn'), { opacity: 1}, { delay: 11000, duration: 500})
+  	Velocity(document.getElementById('single-player-btn'), { opacity: 1}, { delay: 10000, duration: 500})
   }
 };
 </script>

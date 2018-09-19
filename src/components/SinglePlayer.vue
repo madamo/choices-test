@@ -1,21 +1,27 @@
 <template>
 
 <div id="single-player">
+
   <div id="back-btn" @click="$emit('show-component', 'LandingPage')">back</div>
+
   <div id="intro-screen" v-show="gameStarted==false">
-    <p>Every choice you have ever made has lead you to this moment.</p>
-    <p>What option will you choose now?</p>
-    <p>Be quick.</p>
-    <p>Be decisive.</p>
-    <p>Make Shitty Choices!</p>
-    <div id='start-btn' @click.stop="startGame">start game</div>
+    <div id="intro-screen-text">
+      <p>Every choice you have ever made has led you to this moment.</p>
+      <p>What will you choose now?</p>
+      <p>Be quick.</p>
+      <p>Be decisive.</p>
+      <p>Make Shitty Choices!</p>
+    </div>
+    <div id='start-btn' @click.stop="gameStarted = true">start game</div>
   </div>
+
+  <div id="timer" v-if="gameStarted"><CountdownTimer v-on:start-game="startGame"></CountdownTimer></div>
+
 	<transition-group tag="div" v-bind:css="false" id="options">
 		<div v-for="(item, index) in optionSet" v-bind:key="item.id" v-show="showOptions" v-bind:data-index="index" class="option" v-on:click.stop="getOptions">{{ item.text }}</div>
 	</transition-group>
 
   <div id="game-over" v-show="gameOver"> Game Over!</div>
-
 
 </div>
 
@@ -24,12 +30,17 @@
 
 <script>
 
+import CountdownTimer from "./CountdownTimer";
+
   import json from '../data/choices.json'
 
 
 export default {
   
   name: "SinglePlayer",
+  components: {
+    CountdownTimer
+  },
   data: function () {
   	return {
   		gameStarted: false,
@@ -37,51 +48,41 @@ export default {
   		clickCount: 0,
   		showOptions: false,
       gameOver: false,
+      showCountdown: false,
+      //countTick: 3,
+      //interval: null,
       optionSet: json
 
   	}
   },
   computed: {
   	updateOptions: function () {
-      /* if (this.clickCount >= this.optionSet.length ){
-          this.gameOver = true
-       } */
+
   	}
   },
   methods: {
-  	//TO-DO: before enter
-  	beforeEnter: function (el, done) {
 
-  	},
-  	enter: function (el, done) {
-
-  	},
-  	leave: function (el, done) {
-
-  	},
-  	leaveActive: function (done) {
-
-  		console.log("left active")
-  	},
   	startGame: function () {
-  		this.gameStarted = true;
+  		// trigger the Intro Screen to appear and transition in
+      console.log("game started")
+        this.gameStarted = true;
+  
 
-  		var optionContainer = document.getElementById('options')
+
+  		// Get a list of all of the option divs to transition in the first pair
+      // TO-DO: Refactor for a more Vue way of doing this, rather than
+      // manipulating the DOM directly
+      var optionContainer = document.getElementById('options')
   		var optionList = optionContainer.childNodes
 
-  		// enter the first pair
+  		// Apply transition to the first pair of options using Velocity
   		Velocity(optionList[0], { translateX: '500px' }, { duration: 200 })
   		Velocity(optionList[1], { translateX: '-500px' }, { delay: 200, duration: 200 })
 
-  		this.showOptions = true
-  	},
+  		// Trigger the options div to appear
+      this.showOptions = true
+    },
   	getOptions: function ( event ) {
-  		
-
-  		//var optionContainer = document.getElementById('options')
-  		//var optionList = optionContainer.childNodes
-
-  		//var nextOption = this.clickCount + 2
 
   		// return which option was selected
   		console.log(event.target.textContent);
@@ -89,36 +90,75 @@ export default {
   		// animate the selected option, then clear the current options
   		Velocity(event.target, { scaleX: 1.5, scaleY: 1.5 }, { duration: 300, loop: 1, complete: this.clearOptions })
   		 
-  		//console.log(this.clickCount);
   	},
   	newOptions: function() {
 
+      // This function gets the next 2 options to display and
+      // transitions them in. It also checks to see if there are
+      // any options left, then triggers Game Over when needed.
+
+      // Get a list of all of the option divs
+      // TO-DO: There is probably a way to not have to do this
+      // multiple times
       var optionContainer = document.getElementById('options')
       var optionList = optionContainer.childNodes
 
-       // increment clickCount
+       // increment clickCount by 2, since we're working with pairs
       this.clickCount+=2;
-      
 
-          // once the current pair exits, bring in the new pair
+      // once the current pair exits, bring in the next pair
       Velocity(optionList[this.clickCount], { translateX: '500px' }, {  duration: 200 })
       Velocity(optionList[this.clickCount+1], { translateX: '-500px' }, { duration: 200 })
 
-      console.log(this.clickCount)
+      // check to see if there are any options left to display
+      // if not, then trigger the game over screen to appear
       if (this.clickCount >= this.optionSet.length) {
         this.gameOver = true
       }
-  	},
-  	clearOptions: function(currentOption) {
+    },
+  	clearOptions: function() {
 
+      // This function gets a list of the option divs, then uses 
+      // clickCount to transition out the currently displayed divs.
+      // when the transition ends, it calls newOptions to bring in the
+      // next pair of options.
+
+      // Again, getting a list of all of the option divs
       var optionContainer = document.getElementById('options')
       var optionList = optionContainer.childNodes
-  		// check to see which pair is currently visible and then exit them from the screen
+  		
+      // take the pair that is currently visible and then exit them from the screen
+      // Once they exit, call newOptions to get the next two  items
   		Velocity(optionList[this.clickCount], { translateY: '500px' }, { delay: 100, duration: 200, display: 'none' })
   		Velocity(optionList[this.clickCount+1], { translateY: '500px' }, { duration: 200, display: 'none', complete: this.newOptions })
-  		
+  	},
+   /* startCountdown: function() {
+      this.showCountdown = true
+      var vm = this
+      if (this.countTick > 0) {
+        this.interval = setInterval(function() {
 
-  	}
+          vm.countTick--
+          console.log(vm.countTick)
+          
+          if (vm.countTick < 1) {
+            vm.startGame()
+
+            clearInterval(vm.interval)
+            console.log("interval cleared")
+            //vm.startGame()
+
+          //vm.tag = vm.msg[2]
+          }
+        }, 1000)
+      }     
+    },
+    numEnter: function(el, done) {
+      Velocity(el, { translateX: 0 }, { duration: 500, complete: done })
+    },
+    numLeave: function(el, done) {
+      Velocity(el, { scaleX: 100, scaleY:100, translateX: '-150px', opacity: 0 }, { duration: 500, complete:done })
+    }*/
   }
 };
 </script>
@@ -129,6 +169,7 @@ export default {
 		max-width: 750px;
 		margin: 0 auto;
 		border: 1px solid green;
+    height: 50%;
 	}
 
   #back-btn {
@@ -163,6 +204,20 @@ export default {
     border: 1px solid grey;
     width: 35%;
     margin: 0 auto;
+  }
+
+  #start-btn:hover {
+    background-color: grey;
+    color: white;
+  }
+
+  #intro-screen {
+    height: 100%;
+  }
+
+  #intro-screen-text {
+    opacity: 1;
+    z-index: 100;
   }
 
 	.slide-right-enter {
