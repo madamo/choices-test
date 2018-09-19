@@ -3,11 +3,15 @@
 <div id="single-player">
   <div id="back-btn" @click="$emit('show-component', 'LandingPage')">back</div>
   <div id="intro-screen" v-show="gameStarted==false">
-    <p>welcome to single</p>
+    <p>Every choice you have ever made has lead you to this moment.</p>
+    <p>What option will you choose now?</p>
+    <p>Be quick.</p>
+    <p>Be decisive.</p>
+    <p>Make Shitty Choices!</p>
     <div id='start-btn' @click.stop="startGame">start game</div>
   </div>
 	<transition-group tag="div" v-bind:css="false" id="options">
-		<div v-for="(item, index) in items" v-bind:key="item" v-show="showOptions" v-bind:data-index="index" class="option" v-on:click.stop="getOptions">{{ item }}</div>
+		<div v-for="(item, index) in optionSet" v-bind:key="item.id" v-show="showOptions" v-bind:data-index="index" class="option" v-on:click.stop="getOptions">{{ item.text }}</div>
 	</transition-group>
 
   <div id="game-over" v-show="gameOver"> Game Over!</div>
@@ -20,6 +24,9 @@
 
 <script>
 
+  import json from '../data/choices.json'
+
+
 export default {
   
   name: "SinglePlayer",
@@ -29,14 +36,16 @@ export default {
   		items: ["A", "B", "C", "D", "E", "F", "G", "H"],
   		clickCount: 0,
   		showOptions: false,
-      gameOver: false
+      gameOver: false,
+      optionSet: json
+
   	}
   },
   computed: {
   	updateOptions: function () {
-       if (this.clickCount >= 10 ){
+      /* if (this.clickCount >= this.optionSet.length ){
           this.gameOver = true
-       }
+       } */
   	}
   },
   methods: {
@@ -96,7 +105,7 @@ export default {
       Velocity(optionList[this.clickCount+1], { translateX: '-500px' }, { duration: 200 })
 
       console.log(this.clickCount)
-      if (this.clickCount >= 8) {
+      if (this.clickCount >= this.optionSet.length) {
         this.gameOver = true
       }
   	},
@@ -129,17 +138,20 @@ export default {
 
 	.option {
 		border: 1px solid grey;
-		width: 25%;
+		width: 30%;
 		margin: 10px auto 10px auto;
 		position: relative;
+    font-size: 1.3em;
 	}
 
 	#options div:nth-child(odd) {
 		left: -500px;
+    text-align: left;
 	}
 
 	#options div:nth-child(even) {
 		left: 500px;
+    text-align: right;
 	}
 
 	#options {
