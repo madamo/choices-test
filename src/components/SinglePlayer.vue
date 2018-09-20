@@ -4,7 +4,7 @@
 
   <div id="back-btn" @click="$emit('show-component', 'LandingPage')">back</div>
 
-  <div id="intro-screen" v-show="gameStarted==false">
+  <div id="intro-screen" v-if="showIntro">
     <div id="intro-screen-text">
       <p>Every choice you have ever made has led you to this moment.</p>
       <p>What will you choose now?</p>
@@ -12,10 +12,10 @@
       <p>Be decisive.</p>
       <p>Make Shitty Choices!</p>
     </div>
-    <div id='start-btn' @click.stop="gameStarted = true">start game</div>
+    <div id='start-btn' @click.stop="showCountdown">start game</div>
   </div>
 
-  <div id="timer" v-if="gameStarted"><CountdownTimer v-on:start-game="startGame"></CountdownTimer></div>
+  <div id="timer" v-if="countdownStarted"><CountdownTimer v-on:start-game="startGame"></CountdownTimer></div>
 
 	<transition-group tag="div" v-bind:css="false" id="options">
 		<div v-for="(item, index) in optionSet" v-bind:key="item.id" v-show="showOptions" v-bind:data-index="index" class="option" v-on:click.stop="getOptions">{{ item.text }}</div>
@@ -44,13 +44,13 @@ export default {
   data: function () {
   	return {
   		gameStarted: false,
+      countdownStarted: false,
+      showIntro: true,
   		items: ["A", "B", "C", "D", "E", "F", "G", "H"],
   		clickCount: 0,
   		showOptions: false,
       gameOver: false,
-      showCountdown: false,
-      //countTick: 3,
-      //interval: null,
+     // showCountdown: false,
       optionSet: json
 
   	}
@@ -61,10 +61,15 @@ export default {
   	}
   },
   methods: {
+    showCountdown: function() {
+      this.showIntro = false
+      this.countdownStarted = true
+    },
 
   	startGame: function () {
   		// trigger the Intro Screen to appear and transition in
       console.log("game started")
+      this.countdownStarted = false
         this.gameStarted = true;
   
 
@@ -132,33 +137,6 @@ export default {
   		Velocity(optionList[this.clickCount], { translateY: '500px' }, { delay: 100, duration: 200, display: 'none' })
   		Velocity(optionList[this.clickCount+1], { translateY: '500px' }, { duration: 200, display: 'none', complete: this.newOptions })
   	},
-   /* startCountdown: function() {
-      this.showCountdown = true
-      var vm = this
-      if (this.countTick > 0) {
-        this.interval = setInterval(function() {
-
-          vm.countTick--
-          console.log(vm.countTick)
-          
-          if (vm.countTick < 1) {
-            vm.startGame()
-
-            clearInterval(vm.interval)
-            console.log("interval cleared")
-            //vm.startGame()
-
-          //vm.tag = vm.msg[2]
-          }
-        }, 1000)
-      }     
-    },
-    numEnter: function(el, done) {
-      Velocity(el, { translateX: 0 }, { duration: 500, complete: done })
-    },
-    numLeave: function(el, done) {
-      Velocity(el, { scaleX: 100, scaleY:100, translateX: '-150px', opacity: 0 }, { duration: 500, complete:done })
-    }*/
   }
 };
 </script>
@@ -209,6 +187,7 @@ export default {
   #start-btn:hover {
     background-color: grey;
     color: white;
+    cursor: pointer;
   }
 
   #intro-screen {

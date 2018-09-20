@@ -1,6 +1,6 @@
 <template>
 	  <transition v-on:enter="numEnter" v-on:leave="numLeave" mode="out-in" v-bind:css="false">
-	  	<div id="count-down" :key="countTick">
+	  	<div id="count-down" :key="countTick" v-if="!hideTimer">
 	  		{{ countTick }}
 	  	</div>
 	  </transition>
@@ -13,7 +13,15 @@
 		data: function() {
 			return {
 				countTick: 3,
-				interval: null
+				interval: null,
+				hideTimer: false
+			}
+		},
+		watch: {
+			countTick: function() {
+				if (this.countTick < 0) {
+					this.$emit('start-game')
+				}
 			}
 		},
 		methods: {
@@ -21,26 +29,33 @@
 				console.log("countdown started")
 				this.showCountdown = true
 				var vm = this
+				this.countTick--
 				if (this.countTick >= 1) {
 					this.interval = setInterval(function() {
 						vm.countTick--
 						console.log(vm.countTick)
 
-						if (vm.countTick < 1) {
-							vm.$emit('start-game')
+						if (vm.countTick == 0) {
+							vm.hideTimer = true
+						}
+
+
+						if (vm.countTick < 0) {
+							vm.hideTimer = true
+							//vm.$emit('start-game')
 							clearInterval(vm.interval)
+							//vm.countTick = 0
 							console.log("interval cleared")
-							//vm.startGame()
 						}
 					}, 1000)
 				}
 				//this.$emit('start-game')     
 			},
 			numEnter: function(el, done) {
-				Velocity(el, { translateX: 0 }, { duration: 500, complete: done })
+				Velocity(el, { opacity: 1 }, { duration: 100, complete: done })
 			},
 			numLeave: function(el, done) {
-				Velocity(el, { scaleX: 100, scaleY:100, translateX: '-150px', opacity: 0 }, { duration: 500, complete:done })
+				Velocity(el, { scaleX: 100, scaleY:100, translateX: '0px', opacity: 0 }, { duration: 500, complete:done })
 			}
 		},
 		mounted: function() {
@@ -48,3 +63,8 @@
 		}
 	}
 </script>
+
+<style scoped>
+	#count-down {
+		opacity: 0;
+	}
