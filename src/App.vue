@@ -45,9 +45,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
   border: 1px solid blue;
   width: 100%;
+  max-height: 800px;
+  min-height: 500px;
 }
 
 .component-fade-enter-active,

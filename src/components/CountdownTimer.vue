@@ -39,7 +39,6 @@
 							vm.hideTimer = true
 						}
 
-
 						if (vm.countTick < 0) {
 							vm.hideTimer = true
 							//vm.$emit('start-game')
@@ -55,7 +54,7 @@
 				Velocity(el, { opacity: 1 }, { duration: 100, complete: done })
 			},
 			numLeave: function(el, done) {
-				Velocity(el, { scaleX: 100, scaleY:100, translateX: '0px', opacity: 0 }, { duration: 500, complete:done })
+				Velocity(el, { fontSize: '100em', translateX: '-25px',translateY: '-600px',opacity: 0 }, { duration: 500, complete:done })
 			}
 		},
 		mounted: function() {

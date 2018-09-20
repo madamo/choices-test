@@ -120,9 +120,19 @@ export default {
 
 	#single-player-btn {
 		border: 1px solid grey;
-		width: 25%;
+		max-width: 300px;
+		width: 65%;
+		height: 60px;
+		line-height: 60px;
 		margin: 10px auto;
 		opacity: 0;
+		font-size: 1.3em;
+	}
+
+	#single-player-btn:hover {
+		cursor: pointer;
+		background-color: grey;
+		color: white;
 	}
 
 	#multi-player-btn {

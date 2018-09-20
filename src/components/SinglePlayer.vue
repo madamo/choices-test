@@ -2,7 +2,9 @@
 
 <div id="single-player">
 
-  <div id="back-btn" @click="$emit('show-component', 'LandingPage')">back</div>
+  <div id="top-nav">
+    <div id="back-btn" @click="$emit('show-component', 'LandingPage')">back</div>
+  </div>
 
   <div id="intro-screen" v-if="showIntro">
     <div id="intro-screen-text">
@@ -70,7 +72,7 @@ export default {
   		// trigger the Intro Screen to appear and transition in
       console.log("game started")
       this.countdownStarted = false
-        this.gameStarted = true;
+      this.gameStarted = true;
   
 
 
@@ -150,17 +152,24 @@ export default {
     height: 50%;
 	}
 
+  #top-nav {
+    /*border: 1px solid red;*/
+  }
+
   #back-btn {
-    position: absolute;
     border: 1px solid pink;
+    width: 25%;
+    text-align: left;
   }
 
 	.option {
 		border: 1px solid grey;
+    min-width: 225px;
 		width: 30%;
 		margin: 10px auto 10px auto;
 		position: relative;
     font-size: 1.3em;
+    padding: 10px;
 	}
 
 	#options div:nth-child(odd) {
