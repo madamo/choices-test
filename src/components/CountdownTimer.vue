@@ -67,3 +67,4 @@
 	#count-down {
 		opacity: 0;
 	}
+</style>

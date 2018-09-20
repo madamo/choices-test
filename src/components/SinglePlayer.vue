@@ -6,7 +6,9 @@
     <div id="back-btn" @click="$emit('show-component', 'LandingPage')">back</div>
   </div>
 
-  <div id="intro-screen" v-if="showIntro">
+  <div id="intro" v-if="showIntro"><IntroScreen v-on:show-countdown="showCountdown"></IntroScreen></div>
+
+ <!-- <div id="intro-screen" v-if="showIntro">
     <div id="intro-screen-text">
       <p>Every choice you have ever made has led you to this moment.</p>
       <p>What will you choose now?</p>
@@ -15,7 +17,7 @@
       <p>Make Shitty Choices!</p>
     </div>
     <div id='start-btn' @click.stop="showCountdown">start game</div>
-  </div>
+  </div> -->
 
   <div id="timer" v-if="countdownStarted"><CountdownTimer v-on:start-game="startGame"></CountdownTimer></div>
 
@@ -33,15 +35,17 @@
 <script>
 
 import CountdownTimer from "./CountdownTimer";
+import IntroScreen from "./IntroScreen";
 
-  import json from '../data/choices.json'
+import json from '../data/choices.json'
 
 
 export default {
   
   name: "SinglePlayer",
   components: {
-    CountdownTimer
+    CountdownTimer,
+    IntroScreen
   },
   data: function () {
   	return {
@@ -186,27 +190,6 @@ export default {
 		height: 100%;
 		overflow: hidden;
 	}
-
-  #start-btn {
-    border: 1px solid grey;
-    width: 35%;
-    margin: 0 auto;
-  }
-
-  #start-btn:hover {
-    background-color: grey;
-    color: white;
-    cursor: pointer;
-  }
-
-  #intro-screen {
-    height: 100%;
-  }
-
-  #intro-screen-text {
-    opacity: 1;
-    z-index: 100;
-  }
 
 	.slide-right-enter {
 		transform: translateX(-500px);
