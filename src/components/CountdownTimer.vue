@@ -54,7 +54,7 @@
 				Velocity(el, { opacity: 1 }, { duration: 100, complete: done })
 			},
 			numLeave: function(el, done) {
-				Velocity(el, { fontSize: '100em', translateX: '-25px',translateY: '-600px',opacity: 0 }, { duration: 500, complete:done })
+				Velocity(el, { /*fontSize: ['100em', '10em']*/scaleX: 10, scaleY: 10, translateX: '0px',translateY: '0px', opacity: 0 }, { duration: 500, complete:done })
 			}
 		},
 		mounted: function() {
@@ -66,5 +66,7 @@
 <style scoped>
 	#count-down {
 		opacity: 0;
+		border: 1px solid orange;
+		font-size: 10em;
 	}
 </style>

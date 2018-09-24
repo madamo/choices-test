@@ -35,12 +35,15 @@ export default {
 
 <style>
 
-@import url('https://fonts.googleapis.com/css?family=EB+Garamond');
+/*@import url('https://fonts.googleapis.com/css?family=EB+Garamond');*/
+@import url('https://fonts.googleapis.com/css?family=Cabin');
+
 
 
 #app {
   /*font-family: "Avenir", Helvetica, Arial, sans-serif;*/
-  font-family: 'EB Garamond', sans-serif;
+ /* font-family: 'EB Garamond', sans-serif; */
+ font-family: 'Cabin', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -50,6 +53,8 @@ export default {
   width: 100%;
   max-height: 800px;
   min-height: 500px;
+  min-width: 320px;
+  overflow: hidden;
 }
 
 .component-fade-enter-active,

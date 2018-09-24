@@ -19,13 +19,15 @@
     <div id='start-btn' @click.stop="showCountdown">start game</div>
   </div> -->
 
-  <div id="timer" v-if="countdownStarted"><CountdownTimer v-on:start-game="startGame"></CountdownTimer></div>
+  <div id="countdown-timer" v-if="countdownStarted"><CountdownTimer v-on:start-game="startGame"></CountdownTimer></div>
 
-	<transition-group tag="div" v-bind:css="false" id="options">
+  <div id="option-display" v-if="gameStarted"><OptionDisplay></OptionDisplay></div>
+
+	<!--<transition-group tag="div" v-bind:css="false" id="options">
 		<div v-for="(item, index) in optionSet" v-bind:key="item.id" v-show="showOptions" v-bind:data-index="index" class="option" v-on:click.stop="getOptions">{{ item.text }}</div>
-	</transition-group>
+	</transition-group> -->
 
-  <div id="game-over" v-show="gameOver"> Game Over!</div>
+ <!-- <div id="game-over" v-show="gameOver"> Game Over!</div> -->
 
 </div>
 
@@ -36,8 +38,10 @@
 
 import CountdownTimer from "./CountdownTimer";
 import IntroScreen from "./IntroScreen";
+import OptionDisplay from "./OptionDisplay";
 
-import json from '../data/choices.json'
+
+//import json from '../data/choices.json'
 
 
 export default {
@@ -45,19 +49,20 @@ export default {
   name: "SinglePlayer",
   components: {
     CountdownTimer,
-    IntroScreen
+    IntroScreen,
+    OptionDisplay
   },
   data: function () {
   	return {
   		gameStarted: false,
       countdownStarted: false,
       showIntro: true,
-  		items: ["A", "B", "C", "D", "E", "F", "G", "H"],
-  		clickCount: 0,
-  		showOptions: false,
-      gameOver: false,
+  		//items: ["A", "B", "C", "D", "E", "F", "G", "H"],
+  		//clickCount: 0,
+  		//showOptions: false,
+     // gameOver: false,
      // showCountdown: false,
-      optionSet: json
+      //optionSet: json
 
   	}
   },
@@ -79,7 +84,7 @@ export default {
       this.gameStarted = true;
   
 
-
+/*
   		// Get a list of all of the option divs to transition in the first pair
       // TO-DO: Refactor for a more Vue way of doing this, rather than
       // manipulating the DOM directly
@@ -91,9 +96,9 @@ export default {
   		Velocity(optionList[1], { translateX: '-500px' }, { delay: 200, duration: 200 })
 
   		// Trigger the options div to appear
-      this.showOptions = true
+      this.showOptions = true*/
     },
-  	getOptions: function ( event ) {
+  	/*getOptions: function ( event ) {
 
   		// return which option was selected
   		console.log(event.target.textContent);
@@ -143,17 +148,20 @@ export default {
   		Velocity(optionList[this.clickCount], { translateY: '500px' }, { delay: 100, duration: 200, display: 'none' })
   		Velocity(optionList[this.clickCount+1], { translateY: '500px' }, { duration: 200, display: 'none', complete: this.newOptions })
   	},
+    runTimer: function() {
+      //TO-DO: bind the timer bar to styles/computed properties
+    }*/
   }
 };
 </script>
 
-<style scoped>
+<style>
 	
 	#single-player {
 		max-width: 750px;
 		margin: 0 auto;
 		border: 1px solid green;
-    height: 50%;
+    min-height: 500px;
 	}
 
   #top-nav {
@@ -166,44 +174,7 @@ export default {
     text-align: left;
   }
 
-	.option {
-		border: 1px solid grey;
-    min-width: 225px;
-		width: 30%;
-		margin: 10px auto 10px auto;
-		position: relative;
-    font-size: 1.3em;
-    padding: 10px;
-	}
 
-	#options div:nth-child(odd) {
-		left: -500px;
-    text-align: left;
-	}
-
-	#options div:nth-child(even) {
-		left: 500px;
-    text-align: right;
-	}
-
-	#options {
-		height: 100%;
-		overflow: hidden;
-	}
-
-	.slide-right-enter {
-		transform: translateX(-500px);
-	}
-	.slide-right-enter-active {
-		transition: all .25s;
-	}
-
-	.slide-left-enter {
-		transform: translateX(500px);
-	}
-	.slide-left-enter-active {
-		transition: all .25s;
-	}
 </style>
 
 
