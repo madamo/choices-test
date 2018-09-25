@@ -66,7 +66,7 @@
 <style scoped>
 	#count-down {
 		opacity: 0;
-		border: 1px solid orange;
+		/*border: 1px solid orange;*/
 		font-size: 10em;
 	}
 </style>

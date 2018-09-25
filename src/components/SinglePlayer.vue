@@ -160,7 +160,7 @@ export default {
 	#single-player {
 		max-width: 750px;
 		margin: 0 auto;
-		border: 1px solid green;
+		/*border: 1px solid green;*/
     min-height: 500px;
 	}
 
@@ -169,9 +169,10 @@ export default {
   }
 
   #back-btn {
-    border: 1px solid pink;
+    /*border: 1px solid pink;*/
     width: 25%;
     text-align: left;
+    cursor: pointer;
   }
 
 

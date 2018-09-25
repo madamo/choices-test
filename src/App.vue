@@ -36,25 +36,35 @@ export default {
 <style>
 
 /*@import url('https://fonts.googleapis.com/css?family=EB+Garamond');*/
-@import url('https://fonts.googleapis.com/css?family=Cabin');
+/*@import url('https://fonts.googleapis.com/css?family=Cabin');*/
+@import url('https://fonts.googleapis.com/css?family=PT+Serif');
+
 
 
 
 #app {
   /*font-family: "Avenir", Helvetica, Arial, sans-serif;*/
  /* font-family: 'EB Garamond', sans-serif; */
- font-family: 'Cabin', sans-serif;
+ font-family: 'PT Serif', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 0px;
-  border: 1px solid blue;
+  color: #FFFFFF;
+  margin: 0 auto;
+ /* border: 1px solid blue;*/
   width: 100%;
   max-height: 800px;
   min-height: 500px;
+  max-width: 1200px;
   min-width: 320px;
   overflow: hidden;
+
+    background-color: #594777;
+
+
+}
+
+body {
 }
 
 .component-fade-enter-active,

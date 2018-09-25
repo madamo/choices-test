@@ -28,7 +28,7 @@ export default {
   name: "LandingPage",
   data: function() {
   	return {
-  		msg: ["in this world", "you can't win", "you can only make..."],
+  		msg: ["In this world", "You can't win", "You can only make..."],
   		tag: "",
   		msgCount: 0,
   		interval: null
@@ -74,8 +74,8 @@ export default {
 
   	this.setMessage()
 
-  	Velocity(document.getElementById('shitty'), { translateX: '500px'}, {delay: 8800, duration: 200})
-  	Velocity(document.getElementById('choices'), { translateX: '-500px'}, {delay: 9000, duration: 200})
+  	Velocity(document.getElementById('shitty'), { translateX: '1200px'}, {delay: 8800, duration: 200})
+  	Velocity(document.getElementById('choices'), { translateX: '-1200px'}, {delay: 9000, duration: 200})
   	Velocity(document.getElementById('single-player-btn'), { opacity: 1}, { delay: 10000, duration: 500})
   }
 };
@@ -84,24 +84,24 @@ export default {
 <style scoped>
 	#title {
 		font-size: 5em;
-		border: 1px solid orange;
+		/*border: 1px solid orange;*/
 	}
 	#intro-text {
 		overflow: hidden;
 	}
 	#shitty {
-		left: -500px;
+		left: -1200px;
 		position: relative;
 	}
 	#choices {
-		left: 500px;
+		left: 1200px;
 		position: relative;
 	}
 	#landing-page {
 		width: 80%;
 		height: 550px;
 		margin: 0 auto;
-		border: 1px solid green;
+		/*border: 1px solid green;*/
 	}
 
 	#tagline {
@@ -119,7 +119,7 @@ export default {
 	}
 
 	#single-player-btn {
-		border: 1px solid grey;
+		border: 4px solid white;
 		max-width: 300px;
 		width: 65%;
 		height: 60px;
@@ -131,8 +131,8 @@ export default {
 
 	#single-player-btn:hover {
 		cursor: pointer;
-		background-color: grey;
-		color: white;
+		background-color: white;
+		color: #594777;
 	}
 
 	#multi-player-btn {

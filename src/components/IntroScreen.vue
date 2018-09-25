@@ -7,7 +7,7 @@
 			<p>Be decisive.</p>
 			<p>Make Shitty Choices!</p>
 
-			<div id='start-btn' @click.stop="$emit('show-countdown')">start game</div>
+			<div id="start-btn" class="btn" @click.stop="$emit('show-countdown')">Start!</div>
 		</div>
 
 	</div> 
@@ -24,12 +24,12 @@
 
 	#intro-screen {
 		font-size: 1.3em;
-		border: 1px solid black;
+		/*border: 1px solid black;*/
 		/*min-height: 500px;*/
 	}
 
 	#intro-container {
-		border: 1px solid purple;
+		/*border: 1px solid purple;*/
 		margin: auto;
 		margin-top: 50px;
 		margin-bottom: 50px;
@@ -37,14 +37,18 @@
 	}
 
 	#start-btn {
-    border: 1px solid grey;
-    width: 35%;
-    margin: 0 auto;
-  }
+		border: 4px solid white;
+		margin: 0 auto;
+		border: 4px solid white;
+		max-width: 300px;
+		width: 65%;
+		height: 60px;
+		line-height: 60px;
+  	}
 
   #start-btn:hover {
-    background-color: grey;
-    color: white;
+    background-color: white;
+    color: #594777;
     cursor: pointer;
   }
 

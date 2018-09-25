@@ -1,5 +1,10 @@
 <template>
 	<div id="option-display">
+		<!--<div id="game-over" v-show="gameOver">Game Over!</div>-->
+		<transition v-on:enter="gameOverEnter">
+			<GameOverScreen v-if="gameOver" :choices="choices"></GameOverScreen>
+		</transition>
+		
 		<div id="turn-timer" v-if="!gameOver">
 			<div id="time-remaining">
 			<div id="time-elapsed" v-bind:style="{ width: timeRemaining + 'px' }"></div>
@@ -15,8 +20,6 @@
 				
 				{{ item.text }}
 			</div>
-
-			<div id="game-over" v-if="gameOver">Game Over!</div>
 		</div>
 	</div>
 </template>
@@ -24,9 +27,14 @@
 <script>
 
 	import json from '../data/choices.json'
+	import GameOverScreen from "./GameOverScreen";
+
 
 	export default {
 		name: "OptionDisplay",
+		components: {
+			GameOverScreen
+		},
 		data: function() {
 			return {
 				clickCount: 0,
@@ -34,7 +42,8 @@
     			gameOver: false,
     			optionSet: json,
     			timeRemaining: 0,
-    			runTimer: null
+    			runTimer: null,
+    			choices: []
     		}
 		},
 		computed: {
@@ -44,7 +53,13 @@
 			getOptions: function ( event ) {
 
 				// return which option was selected
-				console.log(event.target.textContent);
+				//console.log(event.target.textContent);
+				//this.choices.push(this.optionSet[this.clickCount].text)
+				console.log(event.target)
+
+				//TO-DO: Check target id attribute to determine which option was selected
+
+				this.choices.push(event.target.textContent)
 
 				// animate the selected option, then clear the current options
 				Velocity(event.target, { scaleX: 1.5, scaleY: 1.5 }, { duration: 300, loop: 1, complete: this.clearOptions })
@@ -83,7 +98,7 @@
 				// when the transition ends, it calls newOptions to bring in the
 				// next pair of options.
 
-				this.resetTimer()
+				//this.resetTimer()
 
 				// Again, getting a list of all of the option divs
 				var optionContainer = document.getElementById('options')
@@ -99,7 +114,7 @@
 				var timeLeft = document.getElementById('time-remaining')
 				Velocity(timeElapsed, { width: '100%' }, {duration: 10000, easing: "ease-out" })
 				Velocity(timeLeft, { backgroundColor: '#ff0000' }, { delay: 7000, duration: 200 } )
-				Velocity(timeLeft, { opacity: 0.5 }, { duration: 300, loop: true } )
+				Velocity(timeLeft, { opacity: 0.5 }, { duration: 333, loop: true } )
 
 				this.runTimer = setTimeout(this.clearOptions, 10000)
 			},
@@ -111,15 +126,21 @@
 				Velocity(timeLeft, "stop", true)
 				Velocity(timeElapsed, { width: '0%' }, {duration: 500 })
 				//Velocity(timeElapsed, "reverse")
-				Velocity(timeLeft, { opacity: 1, backgroundColor: '#008000' }, { duration: 200 } )
+				Velocity(timeLeft, { opacity: 1, backgroundColor: '#476577' }, { duration: 200 } )
 				//Velocity(timeLeft, "reverse")
 			},
 			checkGameOver: function() {
 				if (this.clickCount >= this.optionSet.length) {
 					this.gameOver = true
+					console.log(this.choices)
 				} else {
-					return
+					this.resetTimer()
+
+					//return
 				}	
+			},
+			gameOverEnter: function(el) {
+				Velocity(el, { opacity: 1}, {duration: 1000})
 			}
 		},
 		mounted: function() {
@@ -164,7 +185,7 @@
 	#options {
 		height: 100%;
 		overflow: hidden;
-		border: 1px solid purple;
+		/*border: 1px solid purple;*/
 		min-height: 500px;
 	}
 
@@ -172,7 +193,7 @@
 	    width: 80%;
 	    height: 30px;
 	    margin: 0 auto;
-	    border: 1px solid grey;
+	    border: 1px solid white;
 	    position: relative;
   	}
 
@@ -187,7 +208,7 @@
 	#time-remaining {
 		width: 100%;
 		height: 100%;
-		background-color: green;
+		background-color: #476577;
 		position: relative;
 		z-index: 0;
 	}
