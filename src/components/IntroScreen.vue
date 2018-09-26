@@ -37,9 +37,8 @@
 	}
 
 	#start-btn {
-		border: 4px solid white;
+		border: 4px solid #594777;
 		margin: 0 auto;
-		border: 4px solid white;
 		max-width: 300px;
 		width: 65%;
 		height: 60px;
@@ -47,8 +46,8 @@
   	}
 
   #start-btn:hover {
-    background-color: white;
-    color: #594777;
+    background-color: #594777;
+    color: white;
     cursor: pointer;
   }
 

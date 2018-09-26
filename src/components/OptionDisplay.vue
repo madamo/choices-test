@@ -16,10 +16,7 @@
 				v-show="showOptions" 
 				v-bind:data-index="index" 
 				v-on:click.stop="getOptions"
-				class="option" >
-				
-				{{ item.text }}
-			</div>
+				class="option" >{{ item.text }}</div>
 		</div>
 	</div>
 </template>
@@ -55,11 +52,22 @@
 				// return which option was selected
 				//console.log(event.target.textContent);
 				//this.choices.push(this.optionSet[this.clickCount].text)
-				console.log(event.target)
+				console.log("Event text " + event.target.textContent)
+				console.log("JSON text " + this.optionSet[this.clickCount].text)
 
-				//TO-DO: Check target id attribute to determine which option was selected
+				//Determine which option was selected and add to choices array to pass to the GameOverScreen
 
-				this.choices.push(event.target.textContent)
+				if (event.target.textContent == this.optionSet[this.clickCount].text) {
+				//	console.log("You picked " + this.optionSet[this.clickCount].text)
+					this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': true })
+					this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': false })
+				} else {
+					//console.log("You picked " + this.optionSet[this.clickCount+1].text)
+					this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': false })
+					this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': true })
+				}
+
+				//this.choices.push(event.target.textContent)
 
 				// animate the selected option, then clear the current options
 				Velocity(event.target, { scaleX: 1.5, scaleY: 1.5 }, { duration: 300, loop: 1, complete: this.clearOptions })
@@ -73,23 +81,28 @@
 				// Get a list of all of the option divs
 				// TO-DO: There is probably a way to not have to do this
 				// multiple times
-
-				var optionContainer = document.getElementById('options')
-				var optionList = optionContainer.childNodes
-
+				
 				// increment clickCount by 2, since we're working with pairs
 				this.clickCount+=2;
 
-				// once the current pair exits, bring in the next pair
-				Velocity(optionList[this.clickCount], { translateX: '500px' }, {  duration: 200 })
-				Velocity(optionList[this.clickCount+1], { translateX: '-500px' }, { duration: 200 })
-
-				// check to see if there are any options left to display
-				// if not, then trigger the game over screen to appear
-
 				this.checkGameOver()
 
-				this.startTimer()
+				if (!this.gameOver) {
+
+					var optionContainer = document.getElementById('options')
+					var optionList = optionContainer.childNodes
+
+
+
+					// once the current pair exits, bring in the next pair
+					Velocity(optionList[this.clickCount], { translateX: '500px' }, {  duration: 200 })
+					Velocity(optionList[this.clickCount+1], { translateX: '-500px' }, { duration: 200 })
+
+					// check to see if there are any options left to display
+					// if not, then trigger the game over screen to appear
+
+					this.startTimer()
+				}
 
 			},
 			clearOptions: function() {
@@ -116,7 +129,7 @@
 				Velocity(timeLeft, { backgroundColor: '#ff0000' }, { delay: 7000, duration: 200 } )
 				Velocity(timeLeft, { opacity: 0.5 }, { duration: 333, loop: true } )
 
-				this.runTimer = setTimeout(this.clearOptions, 10000)
+				this.runTimer = setTimeout(this.timeExpired, 10000)
 			},
 			resetTimer: function() {
 				clearTimeout(this.runTimer)
@@ -132,12 +145,17 @@
 			checkGameOver: function() {
 				if (this.clickCount >= this.optionSet.length) {
 					this.gameOver = true
-					console.log(this.choices)
+					//console.log(this.choices)
+					clearTimeout(this.runTimer)
 				} else {
 					this.resetTimer()
 
 					//return
 				}	
+			},
+			timeExpired: function() {
+				this.choices.push({'text': "You didn't choose!", 'selected': false})
+				this.clearOptions()
 			},
 			gameOverEnter: function(el) {
 				Velocity(el, { opacity: 1}, {duration: 1000})

@@ -49,7 +49,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #FFFFFF;
+  color: #48444F;
   margin: 0 auto;
  /* border: 1px solid blue;*/
   width: 100%;
@@ -59,7 +59,7 @@ export default {
   min-width: 320px;
   overflow: hidden;
 
-    background-color: #594777;
+ /* background-color: #594777; */
 
 
 }

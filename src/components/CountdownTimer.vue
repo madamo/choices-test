@@ -68,5 +68,7 @@
 		opacity: 0;
 		/*border: 1px solid orange;*/
 		font-size: 10em;
+		margin-top: 50px;
+		margin-bottom: 50px;
 	}
 </style>

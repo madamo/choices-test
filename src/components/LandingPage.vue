@@ -119,7 +119,7 @@ export default {
 	}
 
 	#single-player-btn {
-		border: 4px solid white;
+		border: 4px solid #594777;
 		max-width: 300px;
 		width: 65%;
 		height: 60px;
@@ -127,12 +127,13 @@ export default {
 		margin: 10px auto;
 		opacity: 0;
 		font-size: 1.3em;
+		background-color: white;
 	}
 
 	#single-player-btn:hover {
 		cursor: pointer;
-		background-color: white;
-		color: #594777;
+		background-color: #594777;
+		color: white;
 	}
 
 	#multi-player-btn {
