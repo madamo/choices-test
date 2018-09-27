@@ -74,8 +74,8 @@ export default {
 
   	this.setMessage()
 
-  	Velocity(document.getElementById('shitty'), { translateX: '1200px'}, {delay: 8800, duration: 200})
-  	Velocity(document.getElementById('choices'), { translateX: '-1200px'}, {delay: 9000, duration: 200})
+  	Velocity(document.getElementById('shitty'), { translateX: '1200px'}, {delay: 8800, duration: 200, easing: 'ease-out' })
+  	Velocity(document.getElementById('choices'), { translateX: '-1200px'}, {delay: 9000, duration: 200, easing: 'ease-out'})
   	Velocity(document.getElementById('single-player-btn'), { opacity: 1}, { delay: 10000, duration: 500})
   }
 };
@@ -83,7 +83,7 @@ export default {
 
 <style scoped>
 	#title {
-		font-size: 5em;
+		font-size: 20vw;
 		/*border: 1px solid orange;*/
 	}
 	#intro-text {

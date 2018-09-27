@@ -31,11 +31,13 @@
 
 	.end-option {
 		border: 1px solid grey;
+		height: 140px;
 		width: 35%;
 		margin: 10px auto 10px auto;
-		position: relative;
-    	font-size: 1em;
-    	padding: 10px;
-    	display: inline-block;
+    	font-size: 4.5vw;
+    	padding: 0px 10px 0px 10px;
+    	display: inline-flex;
+       	align-items: center;
+    	overflow: hidden;
 	}
 </style>

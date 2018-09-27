@@ -7,7 +7,7 @@
 		
 		<div id="turn-timer" v-if="!gameOver">
 			<div id="time-remaining">
-			<div id="time-elapsed" v-bind:style="{ width: timeRemaining + 'px' }"></div>
+			<div id="time-elapsed"></div>
 			</div>
 		</div>
 		<div id="options">
@@ -154,8 +154,17 @@
 				}	
 			},
 			timeExpired: function() {
-				this.choices.push({'text': "You didn't choose!", 'selected': false})
-				this.clearOptions()
+				//this.choices.push({'text': "You didn't choose!", 'selected': false})
+				var optionContainer = document.getElementById('options')
+				var optionList = optionContainer.childNodes
+
+				this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': false })
+				this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': false })
+
+
+				Velocity(optionList[this.clickCount], { translateY: '5px'}, { loop: 3, duration: 50 })
+				Velocity(optionList[this.clickCount+1], { translateY: '5px' }, { loop: 3, duration: 50, complete: this.clearOptions })
+				//this.clearOptions()
 			},
 			gameOverEnter: function(el) {
 				Velocity(el, { opacity: 1}, {duration: 1000})
