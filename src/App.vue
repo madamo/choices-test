@@ -50,13 +50,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #48444F;
-  margin: 0 auto;
- /* border: 1px solid blue;*/
+  /*border: 1px solid blue;*/
   width: 100%;
-  max-height: 800px;
-  min-height: 500px;
   max-width: 1200px;
-  min-width: 320px;
   overflow: hidden;
 
  /* background-color: #594777; */

@@ -10,7 +10,7 @@
 			<div id="time-elapsed"></div>
 			</div>
 		</div>
-		<div id="options">
+		<div id="options" v-if="!gameOver">
 			<div v-for="(item, index) in optionSet" 
 				v-bind:key="item.id" 
 				v-show="showOptions" 
@@ -158,8 +158,10 @@
 				var optionContainer = document.getElementById('options')
 				var optionList = optionContainer.childNodes
 
-				this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': false })
-				this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': false })
+				this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': false, 'fail':true })
+				this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': false, 'fail': true })
+
+				console.log(this.choices)
 
 
 				Velocity(optionList[this.clickCount], { translateY: '5px'}, { loop: 3, duration: 50 })
