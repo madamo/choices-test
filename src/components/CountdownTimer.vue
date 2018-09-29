@@ -66,9 +66,12 @@
 <style scoped>
 	#count-down {
 		opacity: 0;
-		/*border: 1px solid orange;*/
-		font-size: 10em;
-		margin-top: 50px;
-		margin-bottom: 50px;
+		border: 1px solid orange;
+		font-size: 70vh;
+		/*margin-top: 50px;
+		margin-bottom: 50px;*/
+		display: flex;
+		justify-content: center;
+    	align-items: center;
 	}
 </style>

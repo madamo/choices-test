@@ -32,7 +32,7 @@
 		width: 100%;
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		grid-auto-rows: minmax(100px, 200px);
+		grid-auto-rows: minmax(100px, 150px);
 		grid-gap: 10px 10px;
 	}
 
@@ -43,7 +43,7 @@
 	}
 
 	.fail {
-		border: 5px solid red !important;
+		border: 1px solid red !important;
 		color: grey;
 	}
 
@@ -54,7 +54,10 @@
 
 	.end-option {
 		border: 1px solid grey;
-    	font-size: 1.3em;
+    	font-size: 1em;
+    	display: flex;
+    	justify-content: center;
+    	align-items: center;
     	/*padding: 25% 10px 25% 10px;*/
 
 	}

@@ -35,6 +35,7 @@
 		data: function() {
 			return {
 				clickCount: 0,
+				canClick: true,
   				showOptions: false,
     			gameOver: false,
     			optionSet: json,
@@ -52,25 +53,32 @@
 				// return which option was selected
 				//console.log(event.target.textContent);
 				//this.choices.push(this.optionSet[this.clickCount].text)
-				console.log("Event text " + event.target.textContent)
-				console.log("JSON text " + this.optionSet[this.clickCount].text)
+				/*console.log("Event text " + event.target.textContent)
+				console.log("JSON text " + this.optionSet[this.clickCount].text)*/
+
+				if (this.canClick == true) {
 
 				//Determine which option was selected and add to choices array to pass to the GameOverScreen
 
-				if (event.target.textContent == this.optionSet[this.clickCount].text) {
-				//	console.log("You picked " + this.optionSet[this.clickCount].text)
-					this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': true })
-					this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': false })
+					if (event.target.textContent == this.optionSet[this.clickCount].text) {
+					//	console.log("You picked " + this.optionSet[this.clickCount].text)
+						this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': true })
+						this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': false })
+					} else {
+						//console.log("You picked " + this.optionSet[this.clickCount+1].text)
+						this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': false })
+						this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': true })
+					}
+
+					//this.choices.push(event.target.textContent)
+
+					// animate the selected option, then clear the current options
+					Velocity(event.target, { scaleX: 1.5, scaleY: 1.5 }, { duration: 300, loop: 1, complete: this.clearOptions })
+
+					this.canClick = false
 				} else {
-					//console.log("You picked " + this.optionSet[this.clickCount+1].text)
-					this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': false })
-					this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': true })
+					return
 				}
-
-				//this.choices.push(event.target.textContent)
-
-				// animate the selected option, then clear the current options
-				Velocity(event.target, { scaleX: 1.5, scaleY: 1.5 }, { duration: 300, loop: 1, complete: this.clearOptions })
 			},
 			newOptions: function() {
 
@@ -101,6 +109,7 @@
 					// check to see if there are any options left to display
 					// if not, then trigger the game over screen to appear
 
+					this.canClick = true;
 					this.startTimer()
 				}
 
@@ -192,10 +201,10 @@
 
 <style>
 	.option {
-		border: 1px solid grey;
-    	min-width: 225px;
+    	/*min-width: 225px;
 		width: 30%;
-		margin: 10px auto 10px auto;
+		margin: 10px auto 10px auto;*/
+		border: 1px solid grey;
 		position: relative;
     	font-size: 1.3em;
     	padding: 10px;
@@ -212,10 +221,16 @@
 	}
 
 	#options {
+		/*height: 100%;
+		min-height: 500px;*/
+
+		border: 1px solid purple;
 		height: 100%;
 		overflow: hidden;
-		/*border: 1px solid purple;*/
-		min-height: 500px;
+		display: grid;
+		grid-template-columns: 80%;
+		grid-template-rows: 45% 45%;
+		grid-gap: 10px;
 	}
 
 	#turn-timer {
