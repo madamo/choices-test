@@ -42,7 +42,10 @@ export default {
   },
   methods: {
   	setMessage: function() {
-  		var vm = this
+		this.tag = this.msg[this.msgCount]
+		this.msgCount++  
+		
+		var vm = this
   		if (this.msgCount < this.msg.length) {
   			this.interval = setInterval(function() {
 
@@ -74,9 +77,9 @@ export default {
 
   	this.setMessage()
 
-  	Velocity(document.getElementById('shitty'), { translateX: '1200px'}, {delay: 8800, duration: 200, easing: 'ease-out' })
-  	Velocity(document.getElementById('choices'), { translateX: '-1200px'}, {delay: 9000, duration: 200, easing: 'ease-out'})
-  	Velocity(document.getElementById('single-player-btn'), { opacity: 1}, { delay: 10000, duration: 500})
+  	Velocity(document.getElementById('shitty'), { translateX: '1200px'}, {delay: 6800, duration: 200, easing: 'ease-out' })
+  	Velocity(document.getElementById('choices'), { translateX: '-1200px'}, {delay: 7000, duration: 200, easing: 'ease-out'})
+  	Velocity(document.getElementById('single-player-btn'), { opacity: 1}, { delay: 8000, duration: 500})
   }
 };
 </script>

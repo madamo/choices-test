@@ -24,16 +24,26 @@
 
 	#intro-screen {
 		font-size: 1.3em;
-		/*border: 1px solid black;*/
+		border: 1px solid black;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100vh;
 		/*min-height: 500px;*/
 	}
 
 	#intro-container {
-		/*border: 1px solid purple;*/
-		margin: auto;
+		border: 1px solid purple;
+		/*margin: auto;
 		margin-top: 50px;
 		margin-bottom: 50px;
-		height: 300px;
+		height: 300px;*/
+		/*margin-top: auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;*/
+
 	}
 
 	#start-btn {

@@ -21,7 +21,7 @@
 
   <div id="countdown-timer" v-if="countdownStarted"><CountdownTimer v-on:start-game="startGame"></CountdownTimer></div>
 
-  <div id="option-display" v-if="gameStarted"><OptionDisplay></OptionDisplay></div>
+  <div id="option-container" v-if="gameStarted"><OptionDisplay></OptionDisplay></div>
 
 	<!--<transition-group tag="div" v-bind:css="false" id="options">
 		<div v-for="(item, index) in optionSet" v-bind:key="item.id" v-show="showOptions" v-bind:data-index="index" class="option" v-on:click.stop="getOptions">{{ item.text }}</div>
@@ -160,7 +160,7 @@ export default {
 	#single-player {
 		max-width: 750px;
 		margin: 0 auto;
-		/*border: 1px solid green;*/
+		border: 1px solid green;
     min-height: 500px;
 	}
 
@@ -173,6 +173,8 @@ export default {
     width: 25%;
     text-align: left;
     cursor: pointer;
+    border: 1px solid red;
+    position: absolute;
   }
 
 

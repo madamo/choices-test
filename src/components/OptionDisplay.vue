@@ -56,6 +56,9 @@
 				/*console.log("Event text " + event.target.textContent)
 				console.log("JSON text " + this.optionSet[this.clickCount].text)*/
 
+				//TO-DO: should optionSet get passed down from App so that here we just change selected to true or false
+				// and then pass down to gameover, rather than create a new array?
+				
 				if (this.canClick == true) {
 
 				//Determine which option was selected and add to choices array to pass to the GameOverScreen
@@ -148,7 +151,7 @@
 				Velocity(timeLeft, "stop", true)
 				Velocity(timeElapsed, { width: '0%' }, {duration: 500 })
 				//Velocity(timeElapsed, "reverse")
-				Velocity(timeLeft, { opacity: 1, backgroundColor: '#476577' }, { duration: 200 } )
+				Velocity(timeLeft, { opacity: 1, backgroundColor: '#50C878' }, { duration: 200 } )
 				//Velocity(timeLeft, "reverse")
 			},
 			checkGameOver: function() {
@@ -164,6 +167,8 @@
 			},
 			timeExpired: function() {
 				//this.choices.push({'text': "You didn't choose!", 'selected': false})
+				this.canClick = false
+
 				var optionContainer = document.getElementById('options')
 				var optionList = optionContainer.childNodes
 
@@ -200,41 +205,52 @@
 </script>
 
 <style>
-	.option {
-    	/*min-width: 225px;
-		width: 30%;
-		margin: 10px auto 10px auto;*/
-		border: 1px solid grey;
-		position: relative;
-    	font-size: 1.3em;
-    	padding: 10px;
-	}
 
 	#options div:nth-child(odd) {
 		left: -500px;
-    	text-align: left;
+		text-align: left;
 	}
 
 	#options div:nth-child(even) {
 		left: 500px;
-    	text-align: right;
+		text-align: right;
 	}
 
-	#options {
-		/*height: 100%;
-		min-height: 500px;*/
+	#option-display {
+		border: 1px solid orangered;
+		margin-top: 25px;
+	}
 
-		border: 1px solid purple;
-		height: 100%;
+	#options {/*: 1px solid purple;*/
+		width: 100%;
+		height: 90vh;
+		margin: 0 auto;
 		overflow: hidden;
-		display: grid;
-		grid-template-columns: 80%;
-		grid-template-rows: 45% 45%;
-		grid-gap: 10px;
+		/*display: grid;
+		grid-template-columns: 1fr;
+		grid-auto-rows: minmax(200px, 300px);
+		grid-gap: 10px;*/
+	}
+
+	.option {
+    	/*min-width: 225px;
+		width: 30%;
+		margin: 10px auto 10px auto;*/
+		margin: 10px auto 10px auto;
+		border: 1px solid grey;
+    	font-size: 1.5em;
+    	position: relative;
+    	width: 70%;
+    	height: 33vh;
+
+    	display: flex;
+    	flex-direction: column;
+    	justify-content: center;
+    	align-content: center;
 	}
 
 	#turn-timer {
-	    width: 80%;
+	    width: 75%;
 	    height: 30px;
 	    margin: 0 auto;
 	    border: 1px solid white;
@@ -252,7 +268,7 @@
 	#time-remaining {
 		width: 100%;
 		height: 100%;
-		background-color: #476577;
+		background-color: #50C878;
 		position: relative;
 		z-index: 0;
 	}
