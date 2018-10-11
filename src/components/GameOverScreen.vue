@@ -2,7 +2,7 @@
 	<div id="game-over">
 		<p>Congratulations! But the final question remains: can you live with your choices?</p>
 		<div id="result-container">
-			<div id="choice-list" v-for="choice in choices" v-bind:class="{ selected: choice.selected, fail: choice.fail }" class="end-option">
+			<div id="choice-list" v-for="choice in choices" :class="{ selected: choice.selected }" :key="choice.id" class="end-option">
 			{{ choice.text }}
 			</div>
 		</div>
@@ -15,6 +15,11 @@
 		name: "GameOverScreen",
 		props: {
 			choices: Array
+		},
+		methods: {
+			showChoices: function ( ) {
+				console.log(choices)
+			}
 		}
 	}
 
@@ -24,6 +29,8 @@
 
 	#game-over {
 		opacity: 0;
+		background-color: white;
+		height: 100vh;
 	}
 
 	#result-container {
@@ -36,10 +43,11 @@
 		grid-gap: 10px 10px;
 	}
 
-	.selected {
+	.end-option.selected {
 		/*color: white;
 		background-color: #594777;*/
-		border: 5px solid #594777 !important;
+		border: 5px solid #01DCFF !important;
+		color: black;
 	}
 
 	.fail {
@@ -53,7 +61,8 @@
 	}
 
 	.end-option {
-		border: 1px solid grey;
+		border: 1px solid rgb(170, 170, 170);
+		color: rgb(170,170,170);
     	font-size: 1em;
     	display: flex;
     	justify-content: center;

@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import LandingPage from "./components/LandingPage";
-import SinglePlayer from "./components/SinglePlayer";
+  import LandingPage from "./components/LandingPage";
+  import SinglePlayer from "./components/SinglePlayer";
 
 export default {
   name: "App",
@@ -37,7 +37,8 @@ export default {
 
 /*@import url('https://fonts.googleapis.com/css?family=EB+Garamond');*/
 /*@import url('https://fonts.googleapis.com/css?family=Cabin');*/
-@import url('https://fonts.googleapis.com/css?family=PT+Serif');
+/*@import url('https://fonts.googleapis.com/css?family=PT+Serif');*/
+@import url('https://fonts.googleapis.com/css?family=Merriweather');
 
 
 
@@ -45,17 +46,19 @@ export default {
 #app {
   /*font-family: "Avenir", Helvetica, Arial, sans-serif;*/
  /* font-family: 'EB Garamond', sans-serif; */
- font-family: 'PT Serif', sans-serif;
+ font-family: 'Merriweather', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #48444F;
-  border: 1px solid blue;
+  /*border: 1px solid blue;*/
   width: 100%;
   height: 100vh;
   max-width: 1200px;
   overflow: hidden;
+  color: black;
 
+  background: linear-gradient(white, rgb(224, 224, 224));
  /* background-color: #594777; */
 
 

@@ -24,16 +24,18 @@
 
 	#intro-screen {
 		font-size: 1.3em;
-		border: 1px solid black;
+		border: 1px solid white;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		height: 100vh;
+		margin: 20% auto;
 		/*min-height: 500px;*/
 	}
 
 	#intro-container {
 		border: 1px solid purple;
+		margin-top: auto;
+		margin-bottom: auto;
 		/*margin: auto;
 		margin-top: 50px;
 		margin-bottom: 50px;
@@ -47,7 +49,7 @@
 	}
 
 	#start-btn {
-		border: 4px solid #594777;
+		border: 4px solid black;
 		margin: 0 auto;
 		max-width: 300px;
 		width: 65%;
@@ -56,8 +58,8 @@
   	}
 
   #start-btn:hover {
-    background-color: #594777;
-    color: white;
+    background-color: black;
+	color: white;
     cursor: pointer;
   }
 

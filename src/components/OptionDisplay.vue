@@ -1,9 +1,9 @@
 <template>
 	<div id="option-display">
 		<!--<div id="game-over" v-show="gameOver">Game Over!</div>-->
-		<transition v-on:enter="gameOverEnter">
+	<!--	<transition v-on:enter="gameOverEnter">
 			<GameOverScreen v-if="gameOver" :choices="choices"></GameOverScreen>
-		</transition>
+		</transition> -->
 		
 		<div id="turn-timer" v-if="!gameOver">
 			<div id="time-remaining">
@@ -15,7 +15,7 @@
 				v-bind:key="item.id" 
 				v-show="showOptions" 
 				v-bind:data-index="index" 
-				v-on:click.stop="getOptions"
+				v-on:click.stop="getOptions(item)"
 				class="option" >{{ item.text }}</div>
 		</div>
 	</div>
@@ -23,14 +23,17 @@
 
 <script>
 
-	import json from '../data/choices.json'
-	import GameOverScreen from "./GameOverScreen";
+	//import json from '../data/choices.json'
+	//import GameOverScreen from "./GameOverScreen";
 
 
 	export default {
 		name: "OptionDisplay",
+		props: {
+			optionSet: Array
+		},
 		components: {
-			GameOverScreen
+			
 		},
 		data: function() {
 			return {
@@ -38,7 +41,7 @@
 				canClick: true,
   				showOptions: false,
     			gameOver: false,
-    			optionSet: json,
+    			//optionSet: json,
     			timeRemaining: 0,
     			runTimer: null,
     			choices: []
@@ -48,32 +51,11 @@
 	
 		},
 		methods: {
-			getOptions: function ( event ) {
-
-				// return which option was selected
-				//console.log(event.target.textContent);
-				//this.choices.push(this.optionSet[this.clickCount].text)
-				/*console.log("Event text " + event.target.textContent)
-				console.log("JSON text " + this.optionSet[this.clickCount].text)*/
-
-				//TO-DO: should optionSet get passed down from App so that here we just change selected to true or false
-				// and then pass down to gameover, rather than create a new array?
+			getOptions: function ( item ) {
 				
 				if (this.canClick == true) {
 
-				//Determine which option was selected and add to choices array to pass to the GameOverScreen
-
-					if (event.target.textContent == this.optionSet[this.clickCount].text) {
-					//	console.log("You picked " + this.optionSet[this.clickCount].text)
-						this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': true })
-						this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': false })
-					} else {
-						//console.log("You picked " + this.optionSet[this.clickCount+1].text)
-						this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': false })
-						this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': true })
-					}
-
-					//this.choices.push(event.target.textContent)
+					this.$emit('markSelected', item)
 
 					// animate the selected option, then clear the current options
 					Velocity(event.target, { scaleX: 1.5, scaleY: 1.5 }, { duration: 300, loop: 1, complete: this.clearOptions })
@@ -89,9 +71,6 @@
 				// transitions them in. It also checks to see if there are
 				// any options left, then triggers Game Over when needed.
 
-				// Get a list of all of the option divs
-				// TO-DO: There is probably a way to not have to do this
-				// multiple times
 				
 				// increment clickCount by 2, since we're working with pairs
 				this.clickCount+=2;
@@ -102,8 +81,6 @@
 
 					var optionContainer = document.getElementById('options')
 					var optionList = optionContainer.childNodes
-
-
 
 					// once the current pair exits, bring in the next pair
 					Velocity(optionList[this.clickCount], { translateX: '500px' }, {  duration: 200 })
@@ -137,7 +114,7 @@
 			startTimer: function() {
 				var timeElapsed = document.getElementById('time-elapsed')
 				var timeLeft = document.getElementById('time-remaining')
-				Velocity(timeElapsed, { width: '100%' }, {duration: 10000, easing: "ease-out" })
+				Velocity(timeElapsed, { width: '100%' }, {duration: 10000, easing: "linear" })
 				Velocity(timeLeft, { backgroundColor: '#ff0000' }, { delay: 7000, duration: 200 } )
 				Velocity(timeLeft, { opacity: 0.5 }, { duration: 333, loop: true } )
 
@@ -157,8 +134,10 @@
 			checkGameOver: function() {
 				if (this.clickCount >= this.optionSet.length) {
 					this.gameOver = true
+					this.$emit('endGame', this.gameOver)
 					//console.log(this.choices)
 					clearTimeout(this.runTimer)
+					console.log("game over in optiondisplay!")
 				} else {
 					this.resetTimer()
 
@@ -172,8 +151,8 @@
 				var optionContainer = document.getElementById('options')
 				var optionList = optionContainer.childNodes
 
-				this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': false, 'fail':true })
-				this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': false, 'fail': true })
+				//this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': false, 'fail':true })
+				//this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': false, 'fail': true })
 
 				console.log(this.choices)
 
@@ -199,7 +178,7 @@
 
 			// Trigger the options div to appear
 			this.showOptions = true
-			this.startTimer()
+			//sthis.startTimer()
 		}
 	}
 </script>
@@ -217,16 +196,17 @@
 	}
 
 	#option-display {
-		border: 1px solid orangered;
+		/*border: 1px solid orangered;*/
 		margin-top: 25px;
 	}
 
 	#options {/*: 1px solid purple;*/
 		width: 100%;
-		height: 90vh;
+		max-width: 500px;
+		/*height: 90vh;*/
 		margin: 0 auto;
-		overflow: hidden;
-		/*display: grid;
+		/*overflow: hidden;
+		display: grid;
 		grid-template-columns: 1fr;
 		grid-auto-rows: minmax(200px, 300px);
 		grid-gap: 10px;*/
@@ -236,12 +216,18 @@
     	/*min-width: 225px;
 		width: 30%;
 		margin: 10px auto 10px auto;*/
+		border-radius: 3px;
+		background-color: rgb(43, 28, 139);
+		color: white;
+		box-shadow: 1px 1px grey;
 		margin: 10px auto 10px auto;
-		border: 1px solid grey;
+		/*border: 2px solid black;*/
     	font-size: 1.5em;
+		padding: 20px;
     	position: relative;
-    	width: 70%;
-    	height: 33vh;
+    	width: 80%;
+		min-width: 200px;
+    	height: 23vh;
 
     	display: flex;
     	flex-direction: column;
@@ -250,10 +236,11 @@
 	}
 
 	#turn-timer {
-	    width: 75%;
+	    width: 100%;
+		max-width: 500px;
 	    height: 30px;
 	    margin: 0 auto;
-	    border: 1px solid white;
+	    /*border: 1px solid white;*/
 	    position: relative;
   	}
 
