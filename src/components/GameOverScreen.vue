@@ -46,7 +46,7 @@
 	.end-option.selected {
 		/*color: white;
 		background-color: #594777;*/
-		border: 5px solid #01DCFF !important;
+		border: 5px solid rgb(43, 28, 139) !important;
 		color: black;
 	}
 

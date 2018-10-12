@@ -85,7 +85,7 @@ export default {
       //console.log('game over in singleplayer!')
     },
     gameOverEnter: function(el) {
-				Velocity(el, { opacity: 1}, {duration: 1000})
+				Velocity(el, { opacity: 1}, { duration: 1000 })
 			}
   }
 };

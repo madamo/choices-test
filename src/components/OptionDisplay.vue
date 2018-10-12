@@ -58,7 +58,7 @@
 					this.$emit('markSelected', item)
 
 					// animate the selected option, then clear the current options
-					Velocity(event.target, { scaleX: 1.5, scaleY: 1.5 }, { duration: 300, loop: 1, complete: this.clearOptions })
+					Velocity(event.target, { scaleX: 1.2, scaleY: 1.2 }, { duration: 200, loop: 1, complete: this.clearOptions })
 
 					this.canClick = false
 				} else {
@@ -90,7 +90,7 @@
 					// if not, then trigger the game over screen to appear
 
 					this.canClick = true;
-					this.startTimer()
+					//this.startTimer()
 				}
 
 			},
@@ -108,8 +108,8 @@
 
 				// take the pair that is currently visible and then exit them from the screen
 				// Once they exit, call newOptions to get the next two  items
-				Velocity(optionList[this.clickCount], { translateY: '500px' }, { delay: 100, duration: 200, display: 'none' })
-				Velocity(optionList[this.clickCount+1], { translateY: '500px' }, { duration: 200, display: 'none', complete: this.newOptions })
+				Velocity(optionList[this.clickCount], { translateY: '500px', rotateZ: '25deg' }, { delay: 100, duration: 200, display: 'none' })
+				Velocity(optionList[this.clickCount+1], { translateY: '500px', rotateZ: '-25deg' }, { duration: 200, display: 'none', complete: this.newOptions })
 			},
 			startTimer: function() {
 				var timeElapsed = document.getElementById('time-elapsed')
@@ -187,26 +187,33 @@
 
 	#options div:nth-child(odd) {
 		left: -500px;
+		right: 500px;
 		text-align: left;
 	}
 
 	#options div:nth-child(even) {
 		left: 500px;
+		right: -500px;
+		top: 200px;
 		text-align: right;
 	}
 
 	#option-display {
 		/*border: 1px solid orangered;*/
 		margin-top: 25px;
+		border: 1px solid green;
 	}
 
-	#options {/*: 1px solid purple;*/
+	#options {
 		width: 100%;
-		max-width: 500px;
+		height: 80vh;
+		/*max-width: 500px;*/
+		border: 2px solid black;
 		/*height: 90vh;*/
 		margin: 0 auto;
-		/*overflow: hidden;
-		display: grid;
+		overflow: hidden;
+		position: relative;
+		/*display: grid;
 		grid-template-columns: 1fr;
 		grid-auto-rows: minmax(200px, 300px);
 		grid-gap: 10px;*/
@@ -224,11 +231,12 @@
 		/*border: 2px solid black;*/
     	font-size: 1.5em;
 		padding: 20px;
-    	position: relative;
-    	width: 80%;
+    	position: absolute;
+    	width: 70%;
 		min-width: 200px;
+		max-width: 500px;
     	height: 23vh;
-
+	
     	display: flex;
     	flex-direction: column;
     	justify-content: center;
