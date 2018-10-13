@@ -11,12 +11,13 @@
 			</div>
 		</div>
 		<div id="options" v-if="!gameOver">
-			<div v-for="(item, index) in optionSet" 
-				v-bind:key="item.id" 
-				v-show="showOptions" 
-				v-bind:data-index="index" 
-				v-on:click.stop="getOptions(item)"
-				class="option" >{{ item.text }}</div>
+			<transition v-on:before-enter="beforeEnter" v-on:enter="enterLeft" v-on:leave="leaveTop" v-on:after-leave="afterLeaveTop" v-bind:css="false" >
+				<div v-if="showOptions" v-on:click.stop="getOptions(currentOption.firstOption.timesSelected)" class="firstOption option">{{ currentOption.firstOption.optionText }}</div>
+			</transition>
+			<transition v-on:before-enter="beforeEnter" v-on:enter="enterRight" v-on:leave="leaveBottom" v-on:after-leave="afterLeaveBottom" v-bind:css="false">
+				<div v-if="showOptions" v-on:click.stop="getOptions()" class="secondOption option">{{ currentOption.secondOption.optionText }}</div>
+			</transition>
+			</div>
 		</div>
 	</div>
 </template>
@@ -44,23 +45,52 @@
     			//optionSet: json,
     			timeRemaining: 0,
     			runTimer: null,
-    			choices: []
+				choices: [],
+				currentOption: null
     		}
 		},
 		computed: {
 	
 		},
 		methods: {
+			beforeEnter: function(el, done) {
+				//el.style.transform = 'none'
+				//Velocity(el, "reverse")
+			},
+			enterLeft: function(el, done) {
+				console.log("entering left!")
+				Velocity(el, { translateX: '500px' }, { duration: 200, complete: done })
+			},
+			enterRight: function(el, done) {
+				Velocity(el, { translateX: '-500px' }, { duration: 200, complete: done })
+			},
+			leaveTop: function(el, done) {
+				Velocity(el, { translateY: '500px', rotateZ: '25deg' }, { duration: 1200, complete: done })
+			},
+			leaveBottom: function(el, done) {
+				Velocity(el, { translateY: '500px', rotateZ: '-25deg' }, { delay: 100, duration: 1200, complete: this.newOptions })
+			},
+			afterLeaveTop: function(el, done) {
+				//Velocity(el, "reverse", {complete: done})
+				//el.style.transform = 'unset'
+
+			},
+			afterLeaveBottom: function(el, done) {
+
+				//Velocity(el, "reverse", {complete: this.newOptions})
+			},
 			getOptions: function ( item ) {
 				
 				if (this.canClick == true) {
 
-					this.$emit('markSelected', item)
-
+					//this.$emit('markSelected', item)
+					console.log(item+1)
 					// animate the selected option, then clear the current options
 					Velocity(event.target, { scaleX: 1.2, scaleY: 1.2 }, { duration: 200, loop: 1, complete: this.clearOptions })
 
 					this.canClick = false
+
+					//this.currentOption = this.optionSet[1]
 				} else {
 					return
 				}
@@ -73,23 +103,26 @@
 
 				
 				// increment clickCount by 2, since we're working with pairs
-				this.clickCount+=2;
+				this.clickCount++;
 
 				this.checkGameOver()
 
 				if (!this.gameOver) {
 
-					var optionContainer = document.getElementById('options')
-					var optionList = optionContainer.childNodes
+					//var optionContainer = document.getElementById('options')
+					//var optionList = optionContainer.childNodes
 
 					// once the current pair exits, bring in the next pair
-					Velocity(optionList[this.clickCount], { translateX: '500px' }, {  duration: 200 })
-					Velocity(optionList[this.clickCount+1], { translateX: '-500px' }, { duration: 200 })
+					//Velocity(optionList[this.clickCount], { translateX: '500px' }, {  duration: 200 })
+					//Velocity(optionList[this.clickCount+1], { translateX: '-500px' }, { duration: 200 })
 
 					// check to see if there are any options left to display
 					// if not, then trigger the game over screen to appear
+					this.currentOption = this.optionSet[1]
 
+					this.showOptions = true
 					this.canClick = true;
+
 					//this.startTimer()
 				}
 
@@ -103,13 +136,16 @@
 				//this.resetTimer()
 
 				// Again, getting a list of all of the option divs
-				var optionContainer = document.getElementById('options')
-				var optionList = optionContainer.childNodes
+				//var optionContainer = document.getElementById('options')
+				//var optionList = optionContainer.childNodes
+
+				this.showOptions = false
+				//this.newOptions()
 
 				// take the pair that is currently visible and then exit them from the screen
 				// Once they exit, call newOptions to get the next two  items
-				Velocity(optionList[this.clickCount], { translateY: '500px', rotateZ: '25deg' }, { delay: 100, duration: 200, display: 'none' })
-				Velocity(optionList[this.clickCount+1], { translateY: '500px', rotateZ: '-25deg' }, { duration: 200, display: 'none', complete: this.newOptions })
+				//Velocity(optionList[this.clickCount], { translateY: '500px', rotateZ: '25deg' }, { delay: 100, duration: 200, display: 'none' })
+				//Velocity(optionList[this.clickCount+1], { translateY: '500px', rotateZ: '-25deg' }, { duration: 200, display: 'none', complete: this.newOptions })
 			},
 			startTimer: function() {
 				var timeElapsed = document.getElementById('time-elapsed')
@@ -132,7 +168,7 @@
 				//Velocity(timeLeft, "reverse")
 			},
 			checkGameOver: function() {
-				if (this.clickCount >= this.optionSet.length) {
+				if (this.clickCount > this.optionSet.length) {
 					this.gameOver = true
 					this.$emit('endGame', this.gameOver)
 					//console.log(this.choices)
@@ -165,16 +201,23 @@
 				Velocity(el, { opacity: 1}, {duration: 1000})
 			}
 		},
+		created() {
+			this.currentOption = this.optionSet[0]
+
+		},
 		mounted: function() {
 			// Get a list of all of the option divs to transition in the first pair
 			// TO-DO: Refactor for a more Vue way of doing this, rather than
 			// manipulating the DOM directly
-			var optionContainer = document.getElementById('options')
-			var optionList = optionContainer.childNodes
+			//var optionContainer = document.getElementById('options')
+			//var optionList = optionContainer.childNodes
+
+			//console.log(this.optionSet)
+
 
 			// Apply transition to the first pair of options using Velocity
-			Velocity(optionList[0], { translateX: '500px' }, { duration: 200 })
-			Velocity(optionList[1], { translateX: '-500px' }, { delay: 200, duration: 200 })
+			//Velocity(optionList[0], { translateX: '500px' }, { duration: 200 })
+			//Velocity(optionList[1], { translateX: '-500px' }, { delay: 200, duration: 200 })
 
 			// Trigger the options div to appear
 			this.showOptions = true
@@ -185,13 +228,27 @@
 
 <style>
 
-	#options div:nth-child(odd) {
+	/*#options div:nth-child(odd) {
 		left: -500px;
 		right: 500px;
 		text-align: left;
 	}
 
 	#options div:nth-child(even) {
+		left: 500px;
+		right: -500px;
+		top: 200px;
+		text-align: right;
+	} */
+
+
+	.firstOption {
+		left: -500px;
+		right: 500px;
+		text-align: left;
+	}
+
+	.secondOption {
 		left: 500px;
 		right: -500px;
 		top: 200px;
