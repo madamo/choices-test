@@ -12,7 +12,7 @@
   <div id="countdown-timer" v-if="countdownStarted"><CountdownTimer v-on:start-game="startGame"></CountdownTimer></div>
 
 
-  <div id="option-container" v-if="gameStarted"><OptionDisplay :optionSet="optionSet" @markSelected="markSelected" @endGame="endGame"></OptionDisplay></div>
+  <div id="option-container" v-if="gameStarted"><OptionDisplay :optionSet="optionSet" @markSelected="markSelected" @increment="incrementCounters" @endGame="endGame"></OptionDisplay></div>
 
 	<transition v-on:enter="gameOverEnter">
       			<GameOverScreen v-if="gameOver"  :choices="optionSet"></GameOverScreen>
@@ -79,6 +79,12 @@ export default {
     markSelected(payload) {
       //console.log(payload)
       payload.selected = true
+      payload.timesSelected++
+     // console.log(payload.timesSelected)
+    },
+    incrementCounters(optionGroup) {
+      optionGroup.timesShown++
+      console.log(optionGroup.timesShown)
     },
     endGame(payload) {
       this.gameOver = true

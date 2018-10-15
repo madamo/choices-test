@@ -2,8 +2,16 @@
 	<div id="game-over">
 		<p>Congratulations! But the final question remains: can you live with your choices?</p>
 		<div id="result-container">
-			<div id="choice-list" v-for="choice in choices" :class="{ selected: choice.selected }" :key="choice.id" class="end-option">
-			{{ choice.text }}
+			<div class="option-row" v-for="choice in choices" :key="choice.id">
+				<div class="end-option" :class="{selected: choice.firstOption.selected}">
+					{{ choice.firstOption.optionText }}
+					<span>% choose: {{ choice.firstOption.timesSelected / choice.timesShown }}</span>
+					 </div>
+				<div class="end-option" :class="{selected: choice.secondOption.selected}">
+					{{ choice.secondOption.optionText }} 
+					<span>% choose: {{ choice.secondOption.timesSelected / choice.timesShown }}</span>
+
+					</div>
 			</div>
 		</div>
 	</div>
@@ -20,6 +28,9 @@
 			showChoices: function ( ) {
 				console.log(choices)
 			}
+		},
+		mounted() {
+			console.log(this.choices)
 		}
 	}
 
@@ -37,6 +48,13 @@
 		/*border: 1px solid orange;*/
 		margin: 0 auto;
 		width: 100%;
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-auto-rows: minmax(100px, 150px);
+		grid-gap: 10px 10px;
+	}
+
+	.option-row {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		grid-auto-rows: minmax(100px, 150px);

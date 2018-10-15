@@ -12,12 +12,11 @@
 		</div>
 		<div id="options" v-if="!gameOver">
 			<transition v-on:before-enter="beforeEnter" v-on:enter="enterLeft" v-on:leave="leaveTop" v-on:after-leave="afterLeaveTop" v-bind:css="false" >
-				<div v-if="showOptions" v-on:click.stop="getOptions(currentOption.firstOption.timesSelected)" class="firstOption option">{{ currentOption.firstOption.optionText }}</div>
+				<div v-if="showOptions" v-on:click.stop="getOptions(currentOption.firstOption)" class="firstOption option">{{ currentOption.firstOption.optionText }}</div>
 			</transition>
 			<transition v-on:before-enter="beforeEnter" v-on:enter="enterRight" v-on:leave="leaveBottom" v-on:after-leave="afterLeaveBottom" v-bind:css="false">
-				<div v-if="showOptions" v-on:click.stop="getOptions()" class="secondOption option">{{ currentOption.secondOption.optionText }}</div>
+				<div v-if="showOptions" v-on:click.stop="getOptions(currentOption.secondOption)" class="secondOption option">{{ currentOption.secondOption.optionText }}</div>
 			</transition>
-			</div>
 		</div>
 	</div>
 </template>
@@ -79,12 +78,14 @@
 
 				//Velocity(el, "reverse", {complete: this.newOptions})
 			},
-			getOptions: function ( item ) {
+			getOptions: function (selectedOption) {
 				
 				if (this.canClick == true) {
 
-					//this.$emit('markSelected', item)
-					console.log(item+1)
+					this.$emit('markSelected', selectedOption)
+					console.log(this.currentOption)
+					this.$emit('increment', this.currentOption)
+					//console.log(text)
 					// animate the selected option, then clear the current options
 					Velocity(event.target, { scaleX: 1.2, scaleY: 1.2 }, { duration: 200, loop: 1, complete: this.clearOptions })
 
@@ -118,7 +119,7 @@
 
 					// check to see if there are any options left to display
 					// if not, then trigger the game over screen to appear
-					this.currentOption = this.optionSet[1]
+					this.currentOption = this.optionSet[this.clickCount]
 
 					this.showOptions = true
 					this.canClick = true;
@@ -168,7 +169,7 @@
 				//Velocity(timeLeft, "reverse")
 			},
 			checkGameOver: function() {
-				if (this.clickCount > this.optionSet.length) {
+				if (this.clickCount >= this.optionSet.length) {
 					this.gameOver = true
 					this.$emit('endGame', this.gameOver)
 					//console.log(this.choices)
