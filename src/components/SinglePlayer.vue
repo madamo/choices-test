@@ -85,6 +85,14 @@ export default {
     incrementCounters(optionGroup) {
       optionGroup.timesShown++
       console.log(optionGroup.timesShown)
+      console.log("choice id =" + optionGroup.id)
+      db.collection('choices').doc(optionGroup.id).update({
+        "timesShown": optionGroup.timesShown,
+        "firstOption.timesSelected": optionGroup.firstOption.timesSelected,
+        "secondOption.timesSelected": optionGroup.secondOption.timesSelected
+      }).catch(err => {
+        console.log(err)
+      })
     },
     endGame(payload) {
       this.gameOver = true
