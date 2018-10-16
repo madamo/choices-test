@@ -64,10 +64,10 @@
 				Velocity(el, { translateX: '-500px' }, { duration: 200, complete: done })
 			},
 			leaveTop: function(el, done) {
-				Velocity(el, { translateY: '500px', rotateZ: '25deg' }, { duration: 1200, complete: done })
+				Velocity(el, { translateY: '500px', rotateZ: '25deg' }, { duration: 200, complete: done })
 			},
 			leaveBottom: function(el, done) {
-				Velocity(el, { translateY: '500px', rotateZ: '-25deg' }, { delay: 100, duration: 1200, complete: this.newOptions })
+				Velocity(el, { translateY: '500px', rotateZ: '-25deg' }, { delay: 100, duration: 200, complete: this.newOptions })
 			},
 			afterLeaveTop: function(el, done) {
 				//Velocity(el, "reverse", {complete: done})

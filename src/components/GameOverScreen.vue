@@ -4,12 +4,12 @@
 		<div id="result-container">
 			<div class="option-row" v-for="choice in choices" :key="choice.id">
 				<div class="end-option" :class="{selected: choice.firstOption.selected}">
-					{{ choice.firstOption.optionText }}
-					<span>% choose: {{ choice.firstOption.timesSelected / choice.timesShown }}</span>
-					 </div>
+					<div>{{ choice.firstOption.optionText }}</div>
+					<div class="score">% choose: {{ ((choice.firstOption.timesSelected / choice.timesShown) * 100).toFixed(0) }}</div>
+				</div>
 				<div class="end-option" :class="{selected: choice.secondOption.selected}">
 					{{ choice.secondOption.optionText }} 
-					<span>% choose: {{ choice.secondOption.timesSelected / choice.timesShown }}</span>
+					<span class="score">% choose: {{ ((choice.secondOption.timesSelected / choice.timesShown) * 100).toFixed(0) }}</span>
 
 					</div>
 			</div>
@@ -27,6 +27,9 @@
 		methods: {
 			showChoices: function ( ) {
 				console.log(choices)
+			},
+			getScore: function(timesSelected, timesShown) {
+				return (Math.floor((timesSelected / timesShown) * 100))
 			}
 		},
 		mounted() {
@@ -83,9 +86,15 @@
 		color: rgb(170,170,170);
     	font-size: 1em;
     	display: flex;
+		flex-direction: column;
     	justify-content: center;
     	align-items: center;
     	/*padding: 25% 10px 25% 10px;*/
 
+	}
+
+	.score {
+		font-size: .75em;
+		padding-top: 20px;
 	}
 </style>
