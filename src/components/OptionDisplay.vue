@@ -83,7 +83,7 @@
 				if (this.canClick == true) {
 
 					this.$emit('markSelected', selectedOption)
-					console.log(this.currentOption)
+					//console.log(this.currentOption)
 					this.$emit('increment', this.currentOption)
 					//console.log(text)
 					// animate the selected option, then clear the current options
@@ -103,7 +103,7 @@
 				// any options left, then triggers Game Over when needed.
 
 				
-				// increment clickCount by 2, since we're working with pairs
+				// increment clickCount
 				this.clickCount++;
 
 				this.checkGameOver()
@@ -124,7 +124,7 @@
 					this.showOptions = true
 					this.canClick = true;
 
-					//this.startTimer()
+					this.startTimer()
 				}
 
 			},
@@ -188,14 +188,18 @@
 				var optionContainer = document.getElementById('options')
 				var optionList = optionContainer.childNodes
 
+				var options = document.getElementsByClassName('option')
+				console.log("time expired!")
+				//console.log(options[1])
+
 				//this.choices.push({'text':this.optionSet[this.clickCount].text, 'selected': false, 'fail':true })
 				//this.choices.push({'text':this.optionSet[this.clickCount+1].text, 'selected': false, 'fail': true })
 
-				console.log(this.choices)
+				//console.log(this.choices)
 
 
-				Velocity(optionList[this.clickCount], { translateY: '5px'}, { loop: 3, duration: 50 })
-				Velocity(optionList[this.clickCount+1], { translateY: '5px' }, { loop: 3, duration: 50, complete: this.clearOptions })
+				Velocity(optionList[0], { translateY: '5px'}, { loop: 3, duration: 50 })
+				Velocity(optionList[1], { translateY: '5px' }, { loop: 3, duration: 50, complete: this.clearOptions })
 				//this.clearOptions()
 			},
 			gameOverEnter: function(el) {
@@ -222,7 +226,7 @@
 
 			// Trigger the options div to appear
 			this.showOptions = true
-			//sthis.startTimer()
+			this.startTimer()
 		}
 	}
 </script>
@@ -259,14 +263,14 @@
 	#option-display {
 		/*border: 1px solid orangered;*/
 		margin-top: 25px;
-		border: 1px solid green;
+	/*	border: 1px solid green;*/
 	}
 
 	#options {
 		width: 100%;
 		height: 80vh;
 		/*max-width: 500px;*/
-		border: 2px solid black;
+		/*border: 2px solid black;*/
 		/*height: 90vh;*/
 		margin: 0 auto;
 		overflow: hidden;
@@ -282,7 +286,7 @@
 		width: 30%;
 		margin: 10px auto 10px auto;*/
 		border-radius: 3px;
-		background-color: rgb(43, 28, 139);
+		background-color: rgb(74, 68, 110);
 		color: white;
 		box-shadow: 1px 1px grey;
 		margin: 10px auto 10px auto;
@@ -299,6 +303,8 @@
     	flex-direction: column;
     	justify-content: center;
     	align-content: center;
+
+		cursor: pointer;
 	}
 
 	#turn-timer {

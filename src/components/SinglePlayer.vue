@@ -95,6 +95,7 @@ export default {
       })
     },
     endGame(payload) {
+      this.gameStarted = false
       this.gameOver = true
      // console.log(payload)
       //console.log('game over in singleplayer!')
@@ -128,7 +129,7 @@ export default {
 	}
 
   #top-nav {
-    border: 1px solid red;
+   /* border: 1px solid red; */
     position: relative;
   }
 

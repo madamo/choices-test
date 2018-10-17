@@ -24,7 +24,7 @@
 
 	#intro-screen {
 		font-size: 1.3em;
-		border: 1px solid white;
+	/*	border: 1px solid white; */
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -33,7 +33,7 @@
 	}
 
 	#intro-container {
-		border: 1px solid purple;
+		/*border: 1px solid purple;*/
 		margin-top: auto;
 		margin-bottom: auto;
 		/*margin: auto;
