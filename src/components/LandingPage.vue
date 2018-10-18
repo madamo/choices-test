@@ -1,44 +1,37 @@
 <template>
 
-<div id="landing-page">
-	<div id="intro-text">
-		<div id="tagline">
-			<!--<span id="tag-1" class="tag-segment">in this world, </span>
-			<span id="tag-2" class="tag-segment">you can't win,</span>
-			<span id="tag-3" class="tag-segment"> you can only make...</span>-->
-			<transition v-on:enter="tagEnter" v-on:leave="tagLeave" mode="out-in" v-bind:css="false">
-				<div id="tagline-new" :key="tag"> 
-					{{ tag }}
-				</div>
-			</transition>
+	<div id="landing-page">
+		<div id="intro-text">
+			<div id="tagline">
+				<transition v-on:enter="tagEnter" v-on:leave="tagLeave" mode="out-in" v-bind:css="false">
+					<div id="tagline-new" :key="tag"> 
+						{{ tag }}
+					</div>
+				</transition>
+			</div>
+			<div id="title">
+				<div id="shitty">Shitty</div>
+				<div id="choices">Choices</div>
+			</div>
 		</div>
-  		<div id="title">
-  			<div id="shitty">Shitty</div>
-  			<div id="choices">Choices</div>
-  		</div>
-  	</div>
-  	<div id="single-player-btn" @click="$emit('show-component','SinglePlayer')">Single Player</div>
-  	<div id="multi-player-btn">Multiplayer</div>
-  <!--<button @click="$emit('show-component','SinglePlayer')">single player</button>-->
-  </div>
+			<div id="single-player-btn" @click="$emit('show-component','SinglePlayer')">Single Player</div>
+			<div id="multi-player-btn">Multiplayer</div>
+	</div>
 </template>
 
 <script>
 export default {
-  name: "LandingPage",
-  data: function() {
-  	return {
-  		msg: ["In this world", "You can't win", "You can only make..."],
-  		tag: "",
-  		msgCount: 0,
-  		interval: null
-  	}
+	name: "LandingPage",
+	data: function() {
+		return {
+			msg: ["In this world", "You can't win", "You can only make..."],
+			tag: "",
+			msgCount: 0,
+			interval: null
+		}
   },
   computed: {
-  	tagSegment: function() {
-  		//return this.msg = "you can't win"
-  		// TO-DO: make a transition for the msg, cycle through and update the message 3 times
-  	}
+  
   },
   methods: {
   	setMessage: function() {
@@ -85,8 +78,13 @@ export default {
 </script>
 
 <style scoped>
+
+	#landing-page {
+		width: 100%;
+		/*max-width: 800px;*/
+	}
 	#title {
-		font-size: 20vw;
+		font-size: 18vw;
 		/*border: 1px solid orange;*/
 	}
 	#intro-text {

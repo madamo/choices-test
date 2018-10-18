@@ -15,7 +15,7 @@
   <div id="option-container" v-if="gameStarted"><OptionDisplay :optionSet="optionSet" @markSelected="markSelected" @increment="incrementCounters" @endGame="endGame"></OptionDisplay></div>
 
 	<transition v-on:enter="gameOverEnter">
-      			<GameOverScreen v-if="gameOver"  :choices="optionSet"></GameOverScreen>
+    <GameOverScreen v-if="gameOver"  :choices="optionSet"></GameOverScreen>
 	</transition>
 
 </div>
@@ -33,7 +33,7 @@ import GameOverScreen from "./GameOverScreen";
 import db from '@/firebase/init'
 
 
-import json from '../data/choices.json'
+//import json from '../data/choices.json'
 
 
 export default {
@@ -68,9 +68,8 @@ export default {
       this.showIntro = false
       this.countdownStarted = true
     },
-
-  	startGame: function () {
-  		// trigger the Intro Screen to appear and transition in
+    startGame: function () {
+      // trigger the Intro Screen to appear and transition in
       console.log("game started")
       this.countdownStarted = false
       this.gameStarted = true;
@@ -94,7 +93,7 @@ export default {
         console.log(err)
       })
     },
-    endGame(payload) {
+    endGame() {
       this.gameStarted = false
       this.gameOver = true
      // console.log(payload)
@@ -102,7 +101,7 @@ export default {
     },
     gameOverEnter: function(el) {
 				Velocity(el, { opacity: 1}, { duration: 1000 })
-			}
+		}
   },
   created() {
     // fetch data from firebase

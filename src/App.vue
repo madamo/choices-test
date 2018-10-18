@@ -54,17 +54,15 @@ export default {
   /*border: 1px solid blue;*/
   width: 100%;
   height: 100vh;
-  max-width: 1200px;
+  max-width: 800px;
   overflow: hidden;
   color: black;
+  margin: 0 auto;
 
   background: linear-gradient(white, rgb(224, 224, 224));
  /* background-color: #594777; */
 
 
-}
-
-body {
 }
 
 .component-fade-enter-active,

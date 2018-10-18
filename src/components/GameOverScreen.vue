@@ -26,14 +26,14 @@
 		},
 		methods: {
 			showChoices: function ( ) {
-				console.log(choices)
+				//console.log(choices)
 			},
 			getScore: function(timesSelected, timesShown) {
 				return (Math.floor((timesSelected / timesShown) * 100))
 			}
 		},
 		mounted() {
-			console.log(this.choices)
+			//console.log(this.choices)
 		}
 	}
 
@@ -43,7 +43,6 @@
 
 	#game-over {
 		opacity: 0;
-		background-color: white;
 		height: 100vh;
 	}
 
@@ -67,7 +66,7 @@
 	.end-option.selected {
 		/*color: white;
 		background-color: #594777;*/
-		border: 5px solid rgb(74, 68, 110) !important;
+		border: 5px solid rgb(32, 19, 105) !important;
 		color: black;
 	}
 
@@ -84,13 +83,13 @@
 	.end-option {
 		border: 1px solid rgb(170, 170, 170);
 		color: rgb(170,170,170);
-    	font-size: 1em;
-    	display: flex;
+		background-color: white;
+		font-size: 1em;
+		display: flex;
 		flex-direction: column;
-    	justify-content: center;
-    	align-items: center;
-    	/*padding: 25% 10px 25% 10px;*/
-
+		justify-content: center;
+		align-items: center;
+		/*padding: 25% 10px 25% 10px;*/
 	}
 
 	.score {

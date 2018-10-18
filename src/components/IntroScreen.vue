@@ -23,7 +23,7 @@
 <style>
 
 	#intro-screen {
-		font-size: 1.3em;
+		font-size: 1em;
 	/*	border: 1px solid white; */
 		display: flex;
 		align-items: center;

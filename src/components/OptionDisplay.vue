@@ -185,8 +185,8 @@
 				//this.choices.push({'text': "You didn't choose!", 'selected': false})
 				this.canClick = false
 
-				var optionContainer = document.getElementById('options')
-				var optionList = optionContainer.childNodes
+				//var optionContainer = document.getElementById('options')
+				//var optionList = optionContainer.childNodes
 
 				var options = document.getElementsByClassName('option')
 				console.log("time expired!")
@@ -198,8 +198,8 @@
 				//console.log(this.choices)
 
 
-				Velocity(optionList[0], { translateY: '5px'}, { loop: 3, duration: 50 })
-				Velocity(optionList[1], { translateY: '5px' }, { loop: 3, duration: 50, complete: this.clearOptions })
+				Velocity(options[0], { translateY: '5px'}, { loop: 3, duration: 50 })
+				Velocity(options[1], { translateY: '5px' }, { loop: 3, duration: 50, complete: this.clearOptions })
 				//this.clearOptions()
 			},
 			gameOverEnter: function(el) {
@@ -286,7 +286,7 @@
 		width: 30%;
 		margin: 10px auto 10px auto;*/
 		border-radius: 3px;
-		background-color: rgb(74, 68, 110);
+		background-color: rgb(32, 19, 105);
 		color: white;
 		box-shadow: 1px 1px grey;
 		margin: 10px auto 10px auto;
