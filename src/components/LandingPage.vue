@@ -81,14 +81,34 @@ export default {
 
 	#landing-page {
 		width: 100%;
+		/*display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;*/
+		/*margin: 10% auto;*/
+		/*border: 1px solid red;*/
 		/*max-width: 800px;*/
 	}
+
+	@media (min-width: 768px) {
+		#title {
+			font-size: 7em;
+		}
+	}
+
+	@media (max-width: 767px) {
+		#title {
+			font-size: 5em;
+		}
+	}
 	#title {
-		font-size: 18vw;
+		/*font-size: 5em;*/
 		/*border: 1px solid orange;*/
+		width: 100%;
 	}
 	#intro-text {
 		overflow: hidden;
+		width: 100%;
 	}
 	#shitty {
 		left: -1200px;
@@ -97,12 +117,6 @@ export default {
 	#choices {
 		left: 1200px;
 		position: relative;
-	}
-	#landing-page {
-		width: 80%;
-		height: 550px;
-		margin: 0 auto;
-		/*border: 1px solid green;*/
 	}
 
 	#tagline {

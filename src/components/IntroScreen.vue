@@ -23,29 +23,14 @@
 <style>
 
 	#intro-screen {
-		font-size: 1em;
+		font-size: 1.3em;
 	/*	border: 1px solid white; */
-		display: flex;
+		/*display: flex;
 		align-items: center;
-		justify-content: center;
-		margin: 20% auto;
+		justify-content: center;*/
+		width: 100%;
+		/*margin: 20% auto;*/
 		/*min-height: 500px;*/
-	}
-
-	#intro-container {
-		/*border: 1px solid purple;*/
-		margin-top: auto;
-		margin-bottom: auto;
-		/*margin: auto;
-		margin-top: 50px;
-		margin-bottom: 50px;
-		height: 300px;*/
-		/*margin-top: auto;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-direction: column;*/
-
 	}
 
 	#start-btn {

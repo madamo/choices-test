@@ -22,3 +22,8 @@ yarn-error.log*
 data/choices.json
 src/data/choices.json
 package.json
+firestore.rules
+.firebase/hosting.ZGlzdA.cache
+.firebaserc
+firebase.json
+firestore.indexes.json

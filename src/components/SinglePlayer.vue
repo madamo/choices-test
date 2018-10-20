@@ -121,20 +121,22 @@ export default {
 <style>
 	
 	#single-player {
-		max-width: 750px;
-		margin: 0 auto;
+		/*max-width: 750px;
+		margin: 0 auto;*/
 		/*border: 1px solid white;*/
-    min-height: 500px;
+   /* min-height: 500px; */
+   width: 100%;
 	}
 
   #top-nav {
-   /* border: 1px solid red; */
-    position: relative;
+    border: 1px solid red;
+    position: absolute;
+    top: 10px;
   }
 
   #back-btn {
     /*border: 1px solid pink;*/
-    width: 25%;
+    width: 100px;
     text-align: left;
     cursor: pointer;
    /* border: 1px solid red;*/

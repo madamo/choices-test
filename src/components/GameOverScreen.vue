@@ -5,11 +5,11 @@
 			<div class="option-row" v-for="choice in choices" :key="choice.id">
 				<div class="end-option" :class="{selected: choice.firstOption.selected}">
 					<div>{{ choice.firstOption.optionText }}</div>
-					<div class="score">% choose: {{ ((choice.firstOption.timesSelected / choice.timesShown) * 100).toFixed(0) }}</div>
+					<div class="score"> {{ ((choice.firstOption.timesSelected / choice.timesShown) * 100).toFixed(0) }}% </div>
 				</div>
 				<div class="end-option" :class="{selected: choice.secondOption.selected}">
 					{{ choice.secondOption.optionText }} 
-					<span class="score">% choose: {{ ((choice.secondOption.timesSelected / choice.timesShown) * 100).toFixed(0) }}</span>
+					<span class="score"> {{ ((choice.secondOption.timesSelected / choice.timesShown) * 100).toFixed(0) }}% </span>
 
 					</div>
 			</div>
@@ -43,7 +43,10 @@
 
 	#game-over {
 		opacity: 0;
-		height: 100vh;
+		overflow: visible;
+		position: absolute;
+		top: 25px;
+		width: 95%;
 	}
 
 	#result-container {

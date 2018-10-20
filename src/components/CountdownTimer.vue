@@ -70,8 +70,10 @@
 		font-size: 50vh;
 		/*margin-top: 50px;
 		margin-bottom: 50px;*/
-		display: flex;
+		/*display: flex;
 		justify-content: center;
-    	align-items: center;
+    	align-items: center;*/
+		width: 100%;
+		border: 1px solid coral;
 	}
 </style>

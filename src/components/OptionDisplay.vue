@@ -7,7 +7,7 @@
 		
 		<div id="turn-timer" v-if="!gameOver">
 			<div id="time-remaining">
-			<div id="time-elapsed"></div>
+				<div id="time-elapsed"></div>
 			</div>
 		</div>
 		<div id="options" v-if="!gameOver">
@@ -226,7 +226,7 @@
 
 			// Trigger the options div to appear
 			this.showOptions = true
-			this.startTimer()
+			//this.startTimer()
 		}
 	}
 </script>
@@ -262,15 +262,15 @@
 
 	#option-display {
 		/*border: 1px solid orangered;*/
-		margin-top: 25px;
+		/*margin-top: 25px;*/
 	/*	border: 1px solid green;*/
+		margin-top: 25%;
 	}
 
 	#options {
 		width: 100%;
 		height: 80vh;
 		/*max-width: 500px;*/
-		/*border: 2px solid black;*/
 		/*height: 90vh;*/
 		margin: 0 auto;
 		overflow: hidden;
@@ -308,11 +308,11 @@
 	}
 
 	#turn-timer {
-	    width: 100%;
+	    width: calc(70% + 40px);
+		min-width: 200px;
 		max-width: 500px;
 	    height: 30px;
 	    margin: 0 auto;
-	    /*border: 1px solid white;*/
 	    position: relative;
   	}
 

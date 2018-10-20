@@ -53,16 +53,27 @@ export default {
   /*color: #48444F;*/
   /*border: 1px solid blue;*/
   width: 100%;
-  height: 100vh;
+  /*min-height: 552px;*/
+  /*height: 1000px;*/
+  height: 98vh;
   max-width: 800px;
   overflow: hidden;
   color: black;
   margin: 0 auto;
-
   background: linear-gradient(white, rgb(224, 224, 224));
- /* background-color: #594777; */
 
+  display: flex;
+  justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
 
+@media (max-height: 650px) {
+  #app {
+    border: 1px solid cyan;
+    height: 559px;
+
+  }
 }
 
 .component-fade-enter-active,
