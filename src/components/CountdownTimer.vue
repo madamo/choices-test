@@ -73,7 +73,7 @@
 		/*display: flex;
 		justify-content: center;
     	align-items: center;*/
-		width: 100%;
-		border: 1px solid coral;
+		width: 98%;
+		/*border: 1px solid coral;*/
 	}
 </style>

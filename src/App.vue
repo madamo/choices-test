@@ -10,12 +10,20 @@
 <script>
   import LandingPage from "./components/LandingPage";
   import SinglePlayer from "./components/SinglePlayer";
+  import Multiplayer from "./components/Multiplayer";
+  import HostGame from "./components/HostGame";
+  import JoinGame from "./components/JoinGame";
+  import Lobby from "./components/Lobby";
 
 export default {
   name: "App",
   components: {
     LandingPage,
-    SinglePlayer
+    SinglePlayer,
+    Multiplayer,
+    HostGame,
+    JoinGame,
+    Lobby
   },
   data: function() {
     return {
@@ -70,7 +78,7 @@ export default {
 
 @media (max-height: 650px) {
   #app {
-    border: 1px solid cyan;
+    /*border: 1px solid cyan;*/
     height: 559px;
 
   }

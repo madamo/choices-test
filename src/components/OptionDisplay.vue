@@ -226,7 +226,7 @@
 
 			// Trigger the options div to appear
 			this.showOptions = true
-			//this.startTimer()
+			this.startTimer()
 		}
 	}
 </script>

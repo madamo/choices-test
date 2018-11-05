@@ -129,7 +129,7 @@ export default {
 	}
 
   #top-nav {
-    border: 1px solid red;
+   /* border: 1px solid red;*/
     position: absolute;
     top: 10px;
   }

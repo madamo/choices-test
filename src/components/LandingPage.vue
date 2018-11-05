@@ -14,8 +14,10 @@
 				<div id="choices">Choices</div>
 			</div>
 		</div>
-			<div id="single-player-btn" @click="$emit('show-component','SinglePlayer')">Single Player</div>
-			<div id="multi-player-btn">Multiplayer</div>
+			<div id="btn-group">
+				<div id="single-player-btn" class="btn" @click="$emit('show-component','SinglePlayer')">Single Player</div>
+				<div id="multi-player-btn" class="btn" @click="$emit('show-component','Multiplayer')">Multiplayer</div>
+			</div>
 	</div>
 </template>
 
@@ -72,7 +74,7 @@ export default {
 
   	Velocity(document.getElementById('shitty'), { translateX: '1200px'}, {delay: 6800, duration: 200, easing: 'ease-out' })
   	Velocity(document.getElementById('choices'), { translateX: '-1200px'}, {delay: 7000, duration: 200, easing: 'ease-out'})
-  	Velocity(document.getElementById('single-player-btn'), { opacity: 1}, { delay: 8000, duration: 500})
+  	Velocity(document.getElementById('btn-group'), { opacity: 1}, { delay: 8000, duration: 500})
   }
 };
 </script>
@@ -133,25 +135,45 @@ export default {
 		font-size: 1.3em;
 	}
 
-	#single-player-btn {
+	.btn {
 		border: 4px solid black;
 		max-width: 300px;
 		width: 65%;
 		height: 60px;
 		line-height: 60px;
 		margin: 10px auto;
-		opacity: 0;
+		/*opacity: 0;*/
 		font-size: 1.3em;
 	}
 
-	#single-player-btn:hover {
+	#btn-group {
+		opacity: 0;
+	}
+
+	#single-player-btn {
+	/*	border: 4px solid black;
+		max-width: 300px;
+		width: 65%;
+		height: 60px;
+		line-height: 60px;
+		margin: 10px auto;
+		opacity: 0;
+		font-size: 1.3em;*/
+	}
+
+	.btn:hover {
 		cursor: pointer;
 		background-color: black;
-		color: white;
+		color: white;	
+	}
+
+	#single-player-btn:hover {
+		/*cursor: pointer;
+		background-color: black;
+		color: white;*/
 	}
 
 	#multi-player-btn {
-		opacity: 0;
 	}
 
 </style>
