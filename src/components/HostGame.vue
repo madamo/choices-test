@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <Lobby v-if="gameCreated" :gameID="gameID"></Lobby>
+        <Lobby v-if="gameCreated" :gameID="gameID" :isHost="isHost" :playerName="playerName"></Lobby>
 
     </div>
 
@@ -29,20 +29,51 @@ export default {
         return {
             playerName: null,
             gameID: null,
-            gameCreated: false
+            gameCreated: false,
+            isHost: true,
+            choices: []
         }
     },
     methods: {
         createGame() {
+
+            
+            //console.log("choices: " + this.choices)
+
             let id = Math.floor(Math.random()*90000) + 10000;
             id = String(id)
             db.collection('games').doc(id).set({
-                players: [this.playerName]
+                players: [this.playerName],
+               // choices: this.choices,
+                gameStarted: false
+            }).then(() => {
+                this.gameID = id
+                this.gameCreated = true
+
+                let ref = db.collection('games').doc(id).collection('choices')
+                for (let choice of this.choices) {
+                    console.log(choice.id)
+                    ref.doc(choice.id).set({
+                        firstOption: choice.firstOption,
+                        secondOption: choice.secondOption,
+                        timesShown: choice.timesShown
+                    })
+                }
             })
-            this.gameID = id
-            this.gameCreated = true
         }
     },
+    created() {
+        db.collection('choices').get()
+        .then(snapshot => {
+            snapshot.forEach(doc => {
+                let choice = doc.data()
+                console.log(choice)
+                choice.id = doc.id
+                this.choices.push(choice)
+                //this.choices = {choice: choice, id: choice.id}
+            })
+        })
+    }
 }
 </script>
 

@@ -1,17 +1,25 @@
 <template>
     <div class="lobby">
-        <h2>lobby: {{ gameID }}</h2>
-       <!-- <div id="enter-name" v-if="!nameEntered">
-            <label for="name">Enter your name:</label>
-            <input type="text" v-model="playerName"/>
-            <button @click="addPlayer">OK</button>
-        </div>-->
-        <div id="show-players">
+
+        <div id="show-players" v-if="showPlayers">
+            <h2>lobby: {{ gameID }}</h2>
             <h3>Waiting for players...</h3>
             <ul id="player-list">
                 <li v-for="(player, index) in players" :key="index">{{ player }}</li>
             </ul>
+
+            <div id="start-game" v-if="isHost" @click="startTimer">start game</div>
+
         </div>
+
+        <CountdownTimer v-if="countdownStarted" v-on:start-game="startGame"></CountdownTimer>
+
+        <OptionDisplay v-if="gameStarted" :optionSet="optionSet" @markSelected="markSelected" @increment="incrementCounters" @endGame="endGame"></OptionDisplay>
+
+	<transition v-on:enter="gameOverEnter">
+        <GameOverScreen v-if="gameOver"  :choices="optionSet" :gameID="gameID"></GameOverScreen>
+	</transition>
+
     </div>
 </template>
 
@@ -19,67 +27,136 @@
 import db from '@/firebase/init.js'
 import firebase from 'firebase'
 
+import CountdownTimer from '@/components/CountdownTimer'
+import OptionDisplay from '@/components/OptionDisplay'
+import GameOverScreen from '@/components/GameOverScreen'
+
+
 export default {
     name: 'Lobby',
     props: {
-        gameID: String
+        gameID: String,
+        isHost: Boolean,
+        playerName: String
+    },
+    components: {
+        CountdownTimer,
+        OptionDisplay,
+        GameOverScreen
     },
     data() {
         return {
-            playerName: null,
-            nameEntered: false,
-            players: []
+            players: [],
+            countdownStarted: false,
+            gameStarted: false,
+            showPlayers: true,
+            optionSet: [],
+            gameOver: false
         }
     },
     methods: {
-        createGame() {
-            let id = Math.floor(Math.random()*90000) + 10000;
-            id = String(id)
-           /* db.collection('games').doc(id).set({
-                players: []
-            })*/
-            db.collection('games').doc(id).set({
-                gameStarted: false
-            })
-            this.gameID = id
-        },
-       /* addPlayer() {
+        startTimer() {
+            console.log("start clicked")
             let ref = db.collection('games').doc(this.gameID)
             ref.get().then(doc => {
-                if (doc.exists) {
-                    if (doc.data().players) {
+                    if (doc.exists) {
+                        //this.feedback = "Game exists"
                         ref.update({
-                            players: firebase.firestore.FieldValue.arrayUnion(this.playerName)
-                        })
-                    } else {
-                        ref.set({
-                            players: [this.playerName]
+                            gameStarted: true
                         })
                     }
- 
+            })
+        },
+        startCountdown() {
+            this.countdownStarted = true
+            this.showPlayers = false
+        },
+        startGame() {
+            console.log("game started!")
+            this.countdownStarted = false
+            this.gameStarted = true
+        },
+        markSelected(selectedOption) {
+            selectedOption.selected = true
+            console.log(selectedOption)
+            //selectedOption.timesSelected++
+        },
+        incrementCounters(optionGroup) {
+            optionGroup.timesShown++
+            console.log(optionGroup)
+            console.log("choice id =" + optionGroup.id)
+            db.collection('choices').doc(optionGroup.id).update({
+                "timesShown": optionGroup.timesShown,
+                "firstOption.timesSelected": optionGroup.firstOption.timesSelected,
+                "secondOption.timesSelected": optionGroup.secondOption.timesSelected
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+        endGame() {
+            this.gameStarted = false
+            this.gameOver = true
+            console.log(this.optionSet)
+            let ref = db.collection('games').doc(this.gameID).collection('choices')
+            for (let choice of this.optionSet) {
+                if (choice.firstOption.selected) {
+                     ref.doc(choice.id).update({
+                        "firstOption.selectedBy": firebase.firestore.FieldValue.arrayUnion(this.playerName)
+                    }) 
+                } else if (choice.secondOption.selected) {
+                    ref.doc(choice.id).update({
+                        "secondOption.selectedBy": firebase.firestore.FieldValue.arrayUnion(this.playerName)
+                    })
                 }
-            })
-            this.nameEntered = true
+            }
 
+            // TO-DO: Sync selectedBy with db 
             
-
-            ref.onSnapshot(doc => {
-                this.players.push(doc.data().players)
-                console.log(this.players)
-            })
-        } */
+        },
+        gameOverEnter: function(el) {
+			Velocity(el, { opacity: 1}, { duration: 1000 })
+		}
     },
     created() {
        // this.createGame()
+       console.log("Lobby created!")
         let ref = db.collection('games').doc(this.gameID)
+
         ref.onSnapshot(doc => {
-            this.players.push(doc.data().players)
-            console.log(this.players)
+            console.log(doc)
+            if (this.players.length == 0) {
+                for (let player of doc.data().players) {
+                    this.players.push(player)
+                }
+            } else {
+                this.players.push(doc.data().players.pop())
+            }
+
+            if (doc.data().gameStarted) {
+                console.log("gameStarted = true")
+                //this.countdownStarted = true
+                this.startCountdown()
+            }
         })
+
+        let subRef = db.collection('games').doc(this.gameID).collection('choices')
+        if (this.optionSet.length == 0) {
+            subRef.get().then(snapshot => {
+                snapshot.forEach(doc => {
+                    let choice = doc.data()
+                    choice.id = doc.id
+                    this.optionSet.push(choice)
+                })
+            })
+        }
     }
 }
 </script>
 
 <style>
+
+#player-list {
+    list-style: none;
+}
 
 </style>

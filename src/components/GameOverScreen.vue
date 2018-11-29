@@ -5,10 +5,16 @@
 			<div class="option-row" v-for="choice in choices" :key="choice.id">
 				<div class="end-option" :class="{selected: choice.firstOption.selected}">
 					<div>{{ choice.firstOption.optionText }}</div>
+					<div v-for="player in choice.firstOption.selectedBy" :key="player">
+							{{ player }}
+					</div>
 					<div class="score"> {{ ((choice.firstOption.timesSelected / choice.timesShown) * 100).toFixed(0) }}% </div>
 				</div>
 				<div class="end-option" :class="{selected: choice.secondOption.selected}">
 					{{ choice.secondOption.optionText }} 
+				<div v-for="player in choice.secondOption.selectedBy" :key="player">
+							{{ player }}
+				</div>
 					<span class="score"> {{ ((choice.secondOption.timesSelected / choice.timesShown) * 100).toFixed(0) }}% </span>
 
 					</div>
@@ -19,10 +25,19 @@
 
 <script>
 
+import db from '@/firebase/init.js'
+import firebase from 'firebase'
+
 	export default {
 		name: "GameOverScreen",
 		props: {
-			choices: Array
+			choices: Array,
+			gameID: String
+		},
+		data() {
+			return {
+
+			}
 		},
 		methods: {
 			showChoices: function ( ) {
@@ -33,7 +48,31 @@
 			}
 		},
 		mounted() {
-			//console.log(this.choices)
+
+			//TODO: Move this to created, update onSnapshot
+			let ref = db.collection('games').doc(this.gameID).collection('choices')
+			for (let choice of this.choices) {
+				ref.doc(choice.id).get().then(item => {
+					console.log("item = " + item.id)
+					console.log("choice = " + choice.id)
+					console.log("firstOption.selectedBy = " + item.data().firstOption.selectedBy)
+					console.log("secondOption.selectedBy = " + item.data().secondOption.selectedBy)
+
+					if (item.data().firstOption.selectedBy) {
+						for (let player of item.data().firstOption.selectedBy) {
+							choice.firstOption.selectedBy.push(player)
+						}
+					}
+
+					if (item.data().secondOption.selectedBy) {
+						for (let player of item.data().secondOption.selectedBy) {
+							choice.secondOption.selectedBy.push(player)
+						}
+					}
+
+				})
+			}
+
 		}
 	}
 
