@@ -45,7 +45,8 @@ export default {
             db.collection('games').doc(id).set({
                 players: [this.playerName],
                // choices: this.choices,
-                gameStarted: false
+                gameStarted: false,
+                playersFinished: 0
             }).then(() => {
                 this.gameID = id
                 this.gameCreated = true

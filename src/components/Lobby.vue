@@ -95,8 +95,11 @@ export default {
         },
         endGame() {
             this.gameStarted = false
-            this.gameOver = true
-            console.log(this.optionSet)
+            //this.gameOver = true
+            db.collection('games').doc(this.gameID).update({
+                "playersFinished": firebase.firestore.FieldValue.arrayUnion(this.playerName)
+            })
+           // console.log(this.optionSet)
             let ref = db.collection('games').doc(this.gameID).collection('choices')
             for (let choice of this.optionSet) {
                 if (choice.firstOption.selected) {
@@ -123,7 +126,7 @@ export default {
         let ref = db.collection('games').doc(this.gameID)
 
         ref.onSnapshot(doc => {
-            console.log(doc)
+            //console.log(doc)
             if (this.players.length == 0) {
                 for (let player of doc.data().players) {
                     this.players.push(player)
@@ -136,6 +139,14 @@ export default {
                 console.log("gameStarted = true")
                 //this.countdownStarted = true
                 this.startCountdown()
+                ref.update({
+                    "gameStarted": false
+                })
+
+            }
+
+            if (doc.data().playersFinished.length === doc.data().players.length) {
+                this.gameOver = true
             }
         })
 

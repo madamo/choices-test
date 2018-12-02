@@ -3,21 +3,27 @@
 		<p>Congratulations! But the final question remains: can you live with your choices?</p>
 		<div id="result-container">
 			<div class="option-row" v-for="choice in choices" :key="choice.id">
-				<div class="end-option" :class="{selected: choice.firstOption.selected}">
+				<div class="end-option" :class="{ selected: choice.firstOption.selected }">
 					<div>{{ choice.firstOption.optionText }}</div>
-					<div v-for="player in choice.firstOption.selectedBy" :key="player">
-							{{ player }}
-					</div>
 					<div class="score"> {{ ((choice.firstOption.timesSelected / choice.timesShown) * 100).toFixed(0) }}% </div>
-				</div>
-				<div class="end-option" :class="{selected: choice.secondOption.selected}">
-					{{ choice.secondOption.optionText }} 
-				<div v-for="player in choice.secondOption.selectedBy" :key="player">
+
+					<div class="player-container">
+						<div class="player" v-for="player in choice.firstOption.selectedBy" :key="player">
 							{{ player }}
+						</div>
+					</div>
 				</div>
+
+				<div class="end-option" :class="{selected: choice.secondOption.selected}">
+					<div> {{ choice.secondOption.optionText }} </div>
 					<span class="score"> {{ ((choice.secondOption.timesSelected / choice.timesShown) * 100).toFixed(0) }}% </span>
 
+					<div class="player-container">
+						<div class="player" v-for="player in choice.secondOption.selectedBy" :key="player">
+							{{ player }}
+						</div>
 					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -48,9 +54,9 @@ import firebase from 'firebase'
 			}
 		},
 		mounted() {
-
+			//console.log("gameover mounted!")
 			//TODO: Move this to created, update onSnapshot
-			let ref = db.collection('games').doc(this.gameID).collection('choices')
+		/*	let ref = db.collection('games').doc(this.gameID).collection('choices')
 			for (let choice of this.choices) {
 				ref.doc(choice.id).get().then(item => {
 					console.log("item = " + item.id)
@@ -58,22 +64,58 @@ import firebase from 'firebase'
 					console.log("firstOption.selectedBy = " + item.data().firstOption.selectedBy)
 					console.log("secondOption.selectedBy = " + item.data().secondOption.selectedBy)
 
-					if (item.data().firstOption.selectedBy) {
+					
 						for (let player of item.data().firstOption.selectedBy) {
 							choice.firstOption.selectedBy.push(player)
 						}
-					}
+					
 
-					if (item.data().secondOption.selectedBy) {
 						for (let player of item.data().secondOption.selectedBy) {
 							choice.secondOption.selectedBy.push(player)
 						}
-					}
+					
 
 				})
-			}
+			} */
 
-		}
+		},
+		created() {
+			let ref = db.collection('games').doc(this.gameID).collection('choices')
+			
+			for (let choice of this.choices) {
+				let docRef = ref.doc(choice.id)
+
+				docRef.onSnapshot(item => {
+
+					choice.firstOption.selectedBy = []
+					choice.secondOption.selectedBy = []
+		
+					console.log(item)
+
+					//if (choice.firstOption.selectedBy.length == 0) {
+						for (let player of item.data().firstOption.selectedBy) {
+							choice.firstOption.selectedBy.push(player)
+						}
+					//} else {
+					//	choice.firstOption.selectedBy.push(item.data().firstOption.selectedBy.pop())
+				//	}
+
+				//	if (choice.secondOption.selectedBy.length == 0) {
+						for (let player of item.data().secondOption.selectedBy) {
+							choice.secondOption.selectedBy.push(player)
+						}
+				//	} else {
+				//		choice.secondOption.selectedBy.push(item.data().secondOption.selectedBy.pop())
+				//	}
+
+				})
+				//ref.doc(choice.id).get().then(item => {
+					//console.log("item = " + item.id)
+					//console.log("choice = " + choice.id)
+					//console.log("firstOption.selectedBy = " + item.data().firstOption.selectedBy)
+					//console.log("secondOption.selectedBy = " + item.data().secondOption.selectedBy)
+			}
+        }
 	}
 
 </script>
@@ -136,6 +178,17 @@ import firebase from 'firebase'
 
 	.score {
 		font-size: .75em;
-		padding-top: 20px;
+		/*padding-top: 20px;*/
+	}
+
+	.player-container {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		margin: 10px;
+	}
+	.player {
+		font-size: .75em;
+		flex: auto;
 	}
 </style>
