@@ -68,7 +68,11 @@ export default {
   overflow: hidden;
   color: black;
   margin: 0 auto;
-  background: linear-gradient(white, rgb(224, 224, 224));
+  /*background: linear-gradient(white, rgb(224, 224, 224));*/
+  background: #134E5E;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to top, #134E5E,#71B280);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to top, #134E5E, #71B280); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 
   display: flex;
   justify-content: center;

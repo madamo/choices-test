@@ -4,11 +4,13 @@
         <div id="show-players" v-if="showPlayers">
             <h2>lobby: {{ gameID }}</h2>
             <h3>Waiting for players...</h3>
-            <ul id="player-list">
-                <li v-for="(player, index) in players" :key="index">{{ player }}</li>
-            </ul>
+            <!--TODO: add transition for entering players -->
+            <transition-group name="players" tag="div">
+            
+                <div v-for="(player, index) in players" :key="index">{{ player }}</div>
+            </transition-group>
 
-            <div id="start-game" v-if="isHost" @click="startTimer">start game</div>
+            <div id="start-game" v-if="isHost" @click="startTimer" class="btn">start game</div>
 
         </div>
 
@@ -166,8 +168,33 @@ export default {
 
 <style>
 
-#player-list {
-    list-style: none;
+.player {
+    display: none;
+}
+
+.players-enter {
+    opacity: 0;
+}
+
+.players-enter-active {
+    transition: all 1s;
+}
+
+.btn {
+    border: 4px solid black;
+    max-width: 300px;
+    width: 65%;
+    height: 60px;
+    line-height: 60px;
+    margin: 10px auto;
+    /*opacity: 0;*/
+    font-size: 1.3em;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: black;
+    color: white;	
 }
 
 </style>

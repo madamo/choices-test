@@ -1,5 +1,8 @@
 <template>
     <div class="host-game">
+        <div id="top-nav">
+            <div id="back-btn" @click="$emit('hideHost')">back</div>
+        </div>
         <div id="create-form" v-if="!gameCreated">
             <h2>Host game</h2>
             <div>
@@ -46,7 +49,7 @@ export default {
                 players: [this.playerName],
                // choices: this.choices,
                 gameStarted: false,
-                playersFinished: 0
+                playersFinished: []
             }).then(() => {
                 this.gameID = id
                 this.gameCreated = true
@@ -79,5 +82,11 @@ export default {
 </script>
 
 <style>
+
+#top-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
 
 </style>
